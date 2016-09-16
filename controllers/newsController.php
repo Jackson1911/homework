@@ -22,7 +22,7 @@
 			//Проверяем заполненность полей.
 			if (empty($name) || empty($date) || empty($content)) {
 				//Если хоть одно поле пустое обновляем форму
-				header("Location: /news/create");
+				header('Location: /news/create');
 			}
 			
 			$dsn = 'mysql:host=localhost;dbname=testnews';
@@ -38,16 +38,16 @@
 				$db->exec('SET CHARACTER SET utf8');
 
 				//Добавление записи в БД
-				$db->exec("INSERT INTO news (name, date, content) VALUES (". $db->quote($name) .", ". $db->quote($date) .", ". $db->quote($content) .")");
+				$db->exec('INSERT INTO news (name, date, content) VALUES ('. $db->quote($name) .', '. $db->quote($date) .', '. $db->quote($content) .')');
 
-			} catch (PDOException $e){
-				echo "Подключение к базе данных не удалось: " . $e->getMessage();
+			} catch (\PDOException $e){
+				echo 'Подключение к базе данных не удалось: ' . $e->getMessage();
 			}
 			
 			
 
 			//Редирект на actionIndex
-			header("Location: /news/Index");
+			header('Location: /news/Index');
 		}
 
 	}
