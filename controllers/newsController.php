@@ -33,7 +33,7 @@
 				$db->exec('SET CHARACTER SET utf8');
 
 				//Добавление записи в БД
-				$db->exec("INSERT INTO cnews (name, date, content) VALUES (". $db->quote($name) .", ". $db->quote($date) .", ". $db->quote($content) .")");
+				$db->exec("INSERT INTO news (name, date, content) VALUES (". $db->quote($name) .", ". $db->quote($date) .", ". $db->quote($content) .")");
 
 			} catch (PDOException $e){
 				echo "Подключение к базе данных не удалось: " . $e->getMessage();
