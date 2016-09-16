@@ -42,6 +42,7 @@
 
 			} catch (\PDOException $e){
 				echo 'Подключение к базе данных не удалось: ' . $e->getMessage();
+				die();
 			}
 			
 			
