@@ -45,11 +45,8 @@
 				die();
 			}
 			
-			
-
 			//Редирект на actionIndex
 			header('Location: /news/Index');
 		}
-
 	}
 ?>
