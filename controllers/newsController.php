@@ -18,7 +18,12 @@
 			$name = $_POST['name'];
 			$date = $_POST['date'];
 			$content = $_POST['content'];
-
+			
+			//Проверяем заполненность полей.
+			if (empty($name) || empty($date) || empty($content)) {
+				//Если хоть одно поле пустое обновляем форму
+				header("Location: /news/create");
+			}
 			
 			$dsn = 'mysql:host=localhost;dbname=testnews';
 			$username = 'root';
