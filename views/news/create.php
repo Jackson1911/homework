@@ -4,11 +4,10 @@
 	<title>Добавление новой новости</title>
 	<meta charset="utf-8">
 	<style type="text/css">
-		body {background: #50B4D7}
-		.container {background: white; width: 400px; padding: 20px; border: 1px solid black; margin-left:30%; margin-right: 30%}
-		input {margin-bottom: 10px; width: 90%;}
-		textarea {width: 90%; height: 400px;}
-
+		body {background: #6CC445}
+		.container {background: white; width: 800px; padding: 20px; border: 1px solid black; margin: auto}
+		input {margin-bottom: 10px; width: 100%;}
+		textarea {width: 100%; height: 400px;}
 	</style>
 </head>
 <body>
