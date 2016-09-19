@@ -4,7 +4,7 @@ namespace system;
 class App
 {
 	//Default controller
-	public static $defaultController = 'home';
+	public static $defaultController = 'news';
 	//Default action
 	public static $defaultAction = 'index';
 	//Namespace controller

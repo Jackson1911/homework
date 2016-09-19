@@ -1,0 +1,94 @@
+/*MAIN*/
+body {
+	margin: 0;
+	background: #EE2F3C;
+	font-family: sans-serif;
+}
+.header{
+	display: block;
+	background: black;
+	border-bottom: 1px solid white;
+	height: 28px;
+	padding: 10px;
+}
+.header-container {
+	width: 800px;
+	margin: auto;
+}
+.header h2{display: block; margin: 0; text-align: center; float: left;}
+.admin {display: block; text-align: center; float: right; margin-right: 0;}
+.header h2 a {text-decoration: none; color: white;}
+.admin a {display: block; text-decoration: none; color: white; vertical-align: middle;}
+a {text-decoration: none; color: blue; cursor: pointer;}
+a:hover {color: red;}
+
+.container {
+	background: #EE2F3C;
+	width: 800px;
+	padding: 20px;
+	margin: auto;
+}
+
+input {
+	margin-bottom: 10px;
+	width: 100%;
+}
+table {
+	margin: 20px 0px 20px 0px;
+	width: 100%;
+}
+
+textarea {
+	width: 100%;
+	height: 400px;
+}
+.mainstyle{
+	background: white;
+	padding: 20px;
+	margin-bottom: 20px;
+	line-height: 20px;
+	box-shadow: 0 0 10px rgba(0,0,0,2);
+}
+.mainstyle:hover {
+	transition: 0.2s linear;
+	-webkit-transform: scale(1.05);
+ 	transform: scale(1.05);
+ }
+.mainstyle a{
+	text-decoration: none;
+	color: black;
+}
+.mainstyle a:hover{
+	text-decoration: none;
+	color: red;
+}
+.mainstyle p {color: #444;}
+.mainstyle em {color: #959595;}
+/*VIEW*/
+.viewstyle {
+	background: white;
+	padding: 20px;
+	line-height: 20px;
+	box-shadow: 0 0 10px rgba(0,0,0,2);
+}
+/*CREATE*/
+.createstyle {
+	background: white;
+	padding: 20px;
+	line-height: 20px;
+	box-shadow: 0 0 10px rgba(0,0,0,2);
+}
+/*UPDATE*/
+.updatestyle {
+	background: white;
+	padding: 20px;
+	line-height: 20px;
+	box-shadow: 0 0 10px rgba(0,0,0,2);
+}
+/*ADMIN*/
+.adminstyle {
+	background: white;
+	padding: 20px;
+	line-height: 20px;
+	box-shadow: 0 0 10px rgba(0,0,0,2);
+}

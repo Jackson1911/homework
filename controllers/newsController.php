@@ -1,22 +1,57 @@
 <?php
 	namespace controllers;
 	use system\CView;
+	use system\SystemController;
 
-	class newsController
+	class newsController extends SystemController
 	{
+		/**
+		 * [actionIndex - рендерит представление и выводит список всех новостей]
+		 *
+		 * @var $dsn - содержит адрес БД, а так же имя БД
+		 * @var $username - содержит имя пользователя для доступа БД
+		 * @var $password - содержит пароль для доступа к БД
+		 */
 		public function actionIndex()
 		{
-			//Будущий вывод всех статей
-			CView::render('index');
+			$dsn = 'mysql:host=localhost; dbname=testnews';
+			$username = 'root';
+			$password = '';
+
+			try{
+				$db = new \PDO($dsn, $username, $password);
+				$db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+				$db->exec('SET CHARACTER SET utf8');
+				$stmt = $db->query('SELECT * FROM news ORDER BY date');
+				$data = $stmt->fetchAll();
+
+			} catch (\PDOException $e){
+				echo 'Подключение к базе данных не удалось: ' . $e->getMessage();
+				die();
+			}
+
+			/**
+			 * Вызываем метод render() класса CView
+			 * Рендерим представление
+			 * В качестве параметров задаем имя вызываемого представления - 'update'
+			 * и передаем ему данные выбранные в БД - $data
+			 */
+			CView::render('index', $data);
 		}
 
-		/*Этап 1 - Создание новости*/
-		/*1.1 - Отображение формы создания новости*/
+		/**
+		 * [actionCreate Отображает форму добавления новости]
+		 */
 		public function actionCreate()
 		{
 			CView::render('create');
 		}
-		/*1.2 - Логика создания новости*/
+		/**
+		 * [actionCreateProcess - Добавляет данные с формы /news/create в базу данных]
+		 * @var $title - содержит POST данные из формы создания новости
+		 * @var $date - содержит POST данные из формы создания новости
+		 * @var $content - содержит POST данные из формы создания новости
+		 */
 		public function actionCreateProcess()
 		{
 			//Создание коротких переменных для данных из POST
@@ -54,8 +89,14 @@
 			//Редирект на actionIndex
 			header('Location: /news/Index');
 		}
-		/*Этап 2 - Редактирование новости*/
-		/*2.1 - Отображение формы редактирования новости*/
+		/**
+		 * [actionUpdate Отображает форму редактирования, делает выборку из БД и заполняет поля]
+		 * @var $id - получает GET параметр id новости
+		 * 
+		 * @var $dsn - содержит адрес БД, а так же имя БД
+		 * @var $username - содержит имя пользователя для доступа БД
+		 * @var $password - содержит пароль для доступа к БД
+		 */
 		public function actionUpdate(){
 			//Получаем GET параметр id
 			$id = $_GET['id'];
@@ -64,24 +105,35 @@
 			$username = 'root';
 			$password = '';
 			try {
+				//Соединяемся с БД
 				$db = new \PDO($dsn, $username, $password);
 				$db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 				//Устанавливаем кодировку
 				$db->exec('SET CHARACTER SET utf8');
 
 				//Выборка данных
-				$stmt = $db->query('SELECT title, date, content FROM news WHERE id = '.$id);
+				$stmt = $db->query('SELECT title, date, content FROM news WHERE id = ' . $id);
 				$data = $stmt->fetch();
 				
 			} catch (\PDOException $e){
 				echo 'Подключение к базе данных не удалось: ' . $e->getMessage();
 				die();
 			}
-			//Рендерим представление с данными
+			/**
+			 * Вызываем метод render() класса CView
+			 * Рендерим представление
+			 * В качестве параметров задаем имя вызываемого представления - 'update'
+			 * и данные выбранные в БД - $data
+			 */
 			CView::render('update', $data);
-			
+	
 		}
-		/*2.2 - Логика редактирования новости*/	
+
+		/**
+		 * [actionUpdateProccess - делает SQL-запрос к БД и добавляет отредактированные данные]
+		 * @var $id - получает GET параметр id новости
+		 * 
+		 */
 		public function actionUpdateProcess(){
 			$id = $_GET['id'];
 
@@ -97,7 +149,7 @@
 				$db = new \PDO($dsn, $username, $password);
 				$db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 				$db->exec('SET CHARACTER SET utf8');
-				$db->exec("UPDATE news SET title = '$title', date = '$date', content = '$content' WHERE id =" .$id);
+				$db->exec("UPDATE news SET title =" . $db->quote($title) . ", date ="  . $db->quote($date) . ", content ="  . $db->quote($content) . " WHERE id ="  . $id);
 
 			} catch (\PDOException $e){
 				echo 'Подключение к базе данных не удалось: ' . $e->getMessage();
@@ -105,8 +157,10 @@
 			}
 			header('Location: /news/newsadmin'); 
 		}
-		/*Этап 3 - Просмотр новости*/
-		/*3.1 - Выборка данных из БД, Рендер формы отображения с полученными данными*/
+		
+		/**
+		 * [actionView - отображает отдельную новсть]
+		 */
 		public function actionView(){
 
 			$id = $_GET['id'];
@@ -121,7 +175,7 @@
 				$db->exec('SET CHARACTER SET utf8');
 
 				//Делаем выборку данных
-				$stmt = $db->query('SELECT title, date, content FROM news WHERE id = '.$id);
+				$stmt = $db->query('SELECT title, date, content FROM news WHERE id = ' . $id);
 				$data = $stmt->fetch();
 				
 			} catch (\PDOException $e){
@@ -132,8 +186,10 @@
 			CView::render('view', $data);
 
 		}
-		/*Этап 4 - Удаление новости*/
-		/*4.1 - Логика удаления новости*/
+
+		/**
+		 * [actionDelete - Удаляет новость по ее id]
+		 */
 		public function actionDelete(){
 			$id = $_GET['id'];
 
@@ -145,15 +201,23 @@
 				$db = new \PDO($dsn, $username, $password);
 				$db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 				$db->exec('SET CHARACTER SET utf8');
-				$db->exec('DELETE FROM news WHERE id ='.$id);
+				$db->exec('DELETE FROM news WHERE id =' . $id);
 			} catch (\PDOException $e){
 				echo 'Удаление не может быть выполнено: ' . $e->getMessage();
 				die();
 			}
+
 			header('Location: /news/newsadmin');
 		}
-		/*Этап ??? - Самоуправство*/
-		/*Управление новостями*/
+
+		/**
+		 * [actionNewsAdmin - отображает короткий список новостей и позволяет
+		 * манипулировать ими например:
+		 * Добавить
+		 * Просмотреть
+		 * Редактировать
+		 * Удалить]
+		 */
 		public function actionNewsAdmin(){
 			//Запрос к БД
 			$dsn = 'mysql:host=localhost;dbname=testnews';
