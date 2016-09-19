@@ -1,0 +1,8 @@
+{
+  "db": {
+    "host": "127.0.0.1",
+    "dbname": "database name",
+    "username": "user name",
+    "password": "password"
+  }
+}

@@ -3,7 +3,12 @@ namespace system;
 
 class SystemController
 {
-	public static $layout = '/../views/layouts/default.php';
+	/**
+	 * @author Jackson1911
+	 * 
+	 * @var $layout [string] - содержит путь до layout по умолчанию.
+	 */
+	public static $layout = __DIR__ . '/../views/layout/default.php';
 }
 
 ?>

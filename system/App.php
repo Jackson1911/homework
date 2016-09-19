@@ -1,14 +1,21 @@
 <?php
 namespace system;
 
+use components\ConfigComponent;
+use packs\PHPDAO\Classes\DAOFactory;
+use packs\PHPDAO\DAObjects\MysqlDAO;
+use packs\PHPDAO\DAOFactories\MySQLDAOFactory;
+
 class App
 {
 	//Default controller
-	public static $defaultController = 'news';
+	public static $defaultController = 'home';
 	//Default action
 	public static $defaultAction = 'index';
 	//Namespace controller
 	public static $defaultNamespace = 'controllers\\';
+
+	public static $db;
 
 	//Current Controller
 	public static $currentController;
@@ -18,6 +25,7 @@ class App
 	public static function run()
 	{
 		header('Content-Type: text/html; charset=utf-8');
+		self::setDb();
 		self::route();
 	}
 
@@ -49,5 +57,21 @@ class App
 		}
 
 		$objController->$action();
+	}
+
+	private static function setDb()
+	{
+		$dbInfo = ConfigComponent::getMainConfig()['db'];
+
+		/** @var MySQLDAOFactory $mysqlGenerator */
+		$mysqlGenerator = DAOFactory::initial(1);
+		$mysqlGenerator->setHost($dbInfo['host']);
+		$mysqlGenerator->setUsername($dbInfo['username']);
+		$mysqlGenerator->setPassword($dbInfo['password']);
+		$mysqlGenerator->setDbName($dbInfo['dbname']);
+		$mysqlGenerator->createConnection();
+
+		/** @var MysqlDAO $daoMysql */
+		self::$db = $mysqlGenerator->generalDAO();
 	}
 }

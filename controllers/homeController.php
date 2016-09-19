@@ -2,6 +2,7 @@
 
 namespace controllers;
 use system\CView;
+use system\SystemController;
 
 /**
  * Class homeController
@@ -11,7 +12,7 @@ use system\CView;
  * Actions: action<Name> (camelCase)
  * Controllers: <Name>Controller (camelCase)
  */
-class homeController
+class homeController extends SystemController
 {
 	public function actionIndex()
 	{
