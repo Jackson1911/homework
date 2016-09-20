@@ -9,7 +9,7 @@ use packs\PHPDAO\DAOFactories\MySQLDAOFactory;
 class App
 {
 	//Default controller
-	public static $defaultController = 'news';
+	public static $defaultController = 'home';
 	//Default action
 	public static $defaultAction = 'index';
 	//Namespace controller

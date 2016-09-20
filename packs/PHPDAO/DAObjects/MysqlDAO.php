@@ -19,6 +19,13 @@ class MysqlDAO implements GeneralDAO
 	 */
 	private $query = [];
 
+	public function setClass(string $className):GeneralDAO
+	{
+		$this->query['class'] = $className;
+
+		return $this;
+	}
+
 	/**
 	 * @author farZa
 	 * @param string $tableName
@@ -112,19 +119,6 @@ class MysqlDAO implements GeneralDAO
 	}
 
 	/**
-	 * @author Jackson1911
-	 * @param  string $columns
-	 * @return \packs\PHPDAO\DAObjects\GeneralDAO
-	 * Method for order data by field name
-	 */
-	public function orderBy(string $fieldName):GeneralDAO
-	{
-		$this->query['orderBy'] = $fieldName;
-
-		return $this;
-	}
-
-	/**
 	 * @author farZa
 	 * @param string $type
 	 * @return array
@@ -186,7 +180,6 @@ class MysqlDAO implements GeneralDAO
 					'params' => $params,
 				];
 				break;
-
 		}
 
 		return [];
@@ -282,11 +275,6 @@ class MysqlDAO implements GeneralDAO
 		$sql = 'SELECT ' . $this->query['select'] . ' FROM ' . $this->query['table'];
 		$params = [];
 
-		if (isset($this->query['orderBy'])){
-
-			$sql .= ' ORDER BY ' . $this->query['orderBy'];
-
-		}
 
 		if (isset($this->query['where'])) {
 			$whereResult = $this->generateValues('where');
@@ -297,10 +285,13 @@ class MysqlDAO implements GeneralDAO
 
 			$sql .= ' WHERE ' . $condition;
 		}
-		
 
 		$stmt = $pdo->prepare($sql);
 		$stmt->execute($params);
+
+		if (isset($this->query['class'])) {
+			return $stmt->fetchAll(\PDO::FETCH_CLASS, $this->query['class']);
+		}
 
 		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
 	}
@@ -310,7 +301,7 @@ class MysqlDAO implements GeneralDAO
 	 * @return array
 	 * Get one record by condition
 	 */
-	public function fetchRow():array
+	public function fetchRow()
 	{
 		/** @var \PDO $pdo */
 		$pdo = ConnectionsPool::getConnection('MysqlDAO');
@@ -335,6 +326,11 @@ class MysqlDAO implements GeneralDAO
 
 		$stmt = $pdo->prepare($sql);
 		$stmt->execute($params);
+
+		if (isset($this->query['class'])) {
+			$stmt->setFetchMode(\PDO::FETCH_CLASS, $this->query['class']);
+			return $stmt->fetch(\PDO::FETCH_CLASS);
+		}
 
 		return $stmt->fetch(\PDO::FETCH_ASSOC);
 	}
