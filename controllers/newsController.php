@@ -2,38 +2,25 @@
 	namespace controllers;
 	use system\CView;
 	use system\SystemController;
+	use system\App;
 
 	class newsController extends SystemController
 	{
 		/**
 		 * [actionIndex - рендерит представление и выводит список всех новостей]
-		 *
-		 * @var $dsn - содержит адрес БД, а так же имя БД
-		 * @var $username - содержит имя пользователя для доступа БД
-		 * @var $password - содержит пароль для доступа к БД
+		 * @var $data - содержит данные выбранные в БД
 		 */
 		public function actionIndex()
 		{
-			$dsn = 'mysql:host=localhost; dbname=testnews';
-			$username = 'root';
-			$password = '';
-
-			try{
-				$db = new \PDO($dsn, $username, $password);
-				$db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-				$db->exec('SET CHARACTER SET utf8');
-				$stmt = $db->query('SELECT * FROM news ORDER BY date');
-				$data = $stmt->fetchAll();
-
-			} catch (\PDOException $e){
-				echo 'Подключение к базе данных не удалось: ' . $e->getMessage();
-				die();
-			}
+			$data = App::$db->select('*')
+					->from('news')
+					->orderby('date')
+					->fetchAll();
 
 			/**
 			 * Вызываем метод render() класса CView
 			 * Рендерим представление
-			 * В качестве параметров задаем имя вызываемого представления - 'update'
+			 * В качестве параметров задаем имя вызываемого представления - 'index которое находится /../views/news/inedx.php'
 			 * и передаем ему данные выбранные в БД - $data
 			 */
 			CView::render('index', $data);
@@ -46,6 +33,7 @@
 		{
 			CView::render('create');
 		}
+
 		/**
 		 * [actionCreateProcess - Добавляет данные с формы /news/create в базу данных]
 		 * @var $title - содержит POST данные из формы создания новости
@@ -66,59 +54,31 @@
 				die();
 			}
 			
-			$dsn = 'mysql:host=localhost;dbname=testnews';
-			$username = 'root';
-			$password = '';
-
-			//Соединение с БД средствами PDO
-			//Если ошибка то исключение
-			try {
-				$db = new \PDO($dsn, $username, $password);
-				$db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-				//Устанавливаем кодировку
-				$db->exec('SET CHARACTER SET utf8');
-
-				//Добавление записи в БД
-				$db->exec('INSERT INTO news (title, date, content) VALUES ('. $db->quote($title) .', '. $db->quote($date) .', '. $db->quote($content) .')');
-
-			} catch (\PDOException $e){
-				echo 'Добавить данные не удалось: ' . $e->getMessage();
-				die();
-			}
+			App::$db->table('news')
+					->insert([
+						'title' => $title,
+						'date' => $date,
+						'content' => $content
+						])->execute();
 
 			//Редирект на actionIndex
-			header('Location: /news/Index');
+			header('Location: /news/newsadmin');
 		}
+
 		/**
 		 * [actionUpdate Отображает форму редактирования, делает выборку из БД и заполняет поля]
 		 * @var $id - получает GET параметр id новости
-		 * 
-		 * @var $dsn - содержит адрес БД, а так же имя БД
-		 * @var $username - содержит имя пользователя для доступа БД
-		 * @var $password - содержит пароль для доступа к БД
 		 */
 		public function actionUpdate(){
 			//Получаем GET параметр id
 			$id = $_GET['id'];
 			//Запрос к БД
-			$dsn = 'mysql:host=localhost;dbname=testnews';
-			$username = 'root';
-			$password = '';
-			try {
-				//Соединяемся с БД
-				$db = new \PDO($dsn, $username, $password);
-				$db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-				//Устанавливаем кодировку
-				$db->exec('SET CHARACTER SET utf8');
-
-				//Выборка данных
-				$stmt = $db->query('SELECT title, date, content FROM news WHERE id = ' . $id);
-				$data = $stmt->fetch();
-				
-			} catch (\PDOException $e){
-				echo 'Подключение к базе данных не удалось: ' . $e->getMessage();
-				die();
-			}
+			
+			$data = App::$db
+							->select('title, date, content')
+							->from('news')
+							->where(['id' => $id])
+							->fetchRow();
 			/**
 			 * Вызываем метод render() класса CView
 			 * Рендерим представление
@@ -137,24 +97,21 @@
 		public function actionUpdateProcess(){
 			$id = $_GET['id'];
 
+			//Создание коротких перемнных
 			$title = $_POST['title'];
 			$date = $_POST['date'];
 			$content = $_POST['content'];
 
-			try {
-				$dsn = 'mysql:host=localhost;dbname=testnews';
-				$username = 'root';
-				$password = '';
+			//Запрос к БД
+			App::$db
+					->table('news')
+					->update(['title' => $title,
+							  'date' => $date,
+							  'content' => $content,])
+					->where(['id' => $id])
+					->execute();
 
-				$db = new \PDO($dsn, $username, $password);
-				$db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-				$db->exec('SET CHARACTER SET utf8');
-				$db->exec("UPDATE news SET title =" . $db->quote($title) . ", date ="  . $db->quote($date) . ", content ="  . $db->quote($content) . " WHERE id ="  . $id);
-
-			} catch (\PDOException $e){
-				echo 'Подключение к базе данных не удалось: ' . $e->getMessage();
-				die();
-			}
+			//Редирект
 			header('Location: /news/newsadmin'); 
 		}
 		
@@ -162,26 +119,16 @@
 		 * [actionView - отображает отдельную новсть]
 		 */
 		public function actionView(){
-
+			//Создание короткой переменной
 			$id = $_GET['id'];
 
-			try {
-				$dsn = 'mysql:host=localhost;dbname=testnews';
-				$username = 'root';
-				$password = '';
-				$db = new \PDO($dsn, $username, $password);
-				$db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-				//Устанавливаем кодировку
-				$db->exec('SET CHARACTER SET utf8');
+			//Запрос к БД
+			$data = App::$db
+							->select('title, date, content')
+							->from('news')
+							->where(['id' => $id])
+							->fetchRow();
 
-				//Делаем выборку данных
-				$stmt = $db->query('SELECT title, date, content FROM news WHERE id = ' . $id);
-				$data = $stmt->fetch();
-				
-			} catch (\PDOException $e){
-				echo 'Подключение к базе данных не удалось: ' . $e->getMessage();
-				die();
-			}
 			//Рендерим представление с полученными данными
 			CView::render('view', $data);
 
@@ -191,22 +138,18 @@
 		 * [actionDelete - Удаляет новость по ее id]
 		 */
 		public function actionDelete(){
+			//Создение короткой переменной
 			$id = $_GET['id'];
 
-			$dsn = 'mysql:host=localhost;dbname=testnews';
-			$username = 'root';
-			$password = '';
-
-			try {
-				$db = new \PDO($dsn, $username, $password);
-				$db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-				$db->exec('SET CHARACTER SET utf8');
-				$db->exec('DELETE FROM news WHERE id =' . $id);
-			} catch (\PDOException $e){
-				echo 'Удаление не может быть выполнено: ' . $e->getMessage();
-				die();
-			}
-
+			//Запрос к БД
+			App::$db
+					->delete()
+					->from('news')
+					->where([
+						'id' => $id,
+					])
+					->execute();
+			//Редирект
 			header('Location: /news/newsadmin');
 		}
 
@@ -220,26 +163,14 @@
 		 */
 		public function actionNewsAdmin(){
 			//Запрос к БД
-			$dsn = 'mysql:host=localhost;dbname=testnews';
-			$username = 'root';
-			$password = '';
+			$data = App::$db
+							->select('*')
+							->from('news')
+							->orderby('date')
+							->fetchAll();
 
-			try {
-				$db = new \PDO($dsn, $username, $password);
-				$db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-				//Устанавливаем кодировку
-				$db->exec('SET CHARACTER SET utf8');
-
-				//Выборка данных
-				$stmt = $db->query('SELECT * FROM news ORDER BY date');
-				$data = $stmt->fetchAll();
-				//Отображение админки
-				CView::render('admin', $data);
-				
-			} catch (\PDOException $e){
-				echo 'Подключение к базе данных не удалось: ' . $e->getMessage();
-				die();
-			}
+			//Рендер представления
+			CView::render('admin', $data);
 		}
 	}
 ?>

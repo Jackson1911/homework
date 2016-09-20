@@ -112,6 +112,19 @@ class MysqlDAO implements GeneralDAO
 	}
 
 	/**
+	 * @author Jackson1911
+	 * @param  string $columns
+	 * @return \packs\PHPDAO\DAObjects\GeneralDAO
+	 * Method for order data by field name
+	 */
+	public function orderBy(string $fieldName):GeneralDAO
+	{
+		$this->query['orderBy'] = $fieldName;
+
+		return $this;
+	}
+
+	/**
 	 * @author farZa
 	 * @param string $type
 	 * @return array
@@ -173,6 +186,7 @@ class MysqlDAO implements GeneralDAO
 					'params' => $params,
 				];
 				break;
+
 		}
 
 		return [];
@@ -268,6 +282,11 @@ class MysqlDAO implements GeneralDAO
 		$sql = 'SELECT ' . $this->query['select'] . ' FROM ' . $this->query['table'];
 		$params = [];
 
+		if (isset($this->query['orderBy'])){
+
+			$sql .= ' ORDER BY ' . $this->query['orderBy'];
+
+		}
 
 		if (isset($this->query['where'])) {
 			$whereResult = $this->generateValues('where');
@@ -278,6 +297,7 @@ class MysqlDAO implements GeneralDAO
 
 			$sql .= ' WHERE ' . $condition;
 		}
+		
 
 		$stmt = $pdo->prepare($sql);
 		$stmt->execute($params);

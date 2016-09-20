@@ -109,6 +109,7 @@ class MySQLDAOFactory extends DAOFactory
 		}
 
 		$this->pdo = new \PDO('mysql:host=' . $this->host . ';dbname=' . $this->dbName, $this->username, $this->password);
+		$this->pdo->exec('SET CHARACTER SET utf8');
 		$this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
 		ConnectionsPool::pushConnection('MysqlDAO', $this->pdo);
