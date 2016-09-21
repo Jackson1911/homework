@@ -10,11 +10,11 @@
 		</tr>
 	<?php foreach ($data as $value): ?>
 		<tr>
-			<td><?= $value['title']; ?></td>
-			<td style="text-align: center"><?=$value['date']?></td>
-			<td style="text-align: center"><a href="/news/view?id=<?= $value['id']; ?>">Просмотреть</a></td>
-			<td style="text-align: center"><a href="/news/update?id=<?= $value['id']; ?>">Редактировать</a></td>
-			<td style="text-align: center"><a href="/news/delete?id=<?= $value['id']; ?>">Удалить</a></td>
+			<td><?= $value->title; ?></td>
+			<td style="text-align: center"><?= $value->date; ?></td>
+			<td style="text-align: center"><a href="/news/view?id=<?= $value->id; ?>">Просмотреть</a></td>
+			<td style="text-align: center"><a href="/news/update?id=<?= $value->id; ?>">Редактировать</a></td>
+			<td style="text-align: center"><a href="/news/delete?id=<?= $value->id; ?>">Удалить</a></td>
 		</tr>
 	<?php endforeach ?>	
 	</table>
