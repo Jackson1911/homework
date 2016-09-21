@@ -5,13 +5,13 @@
 		<div>
 			<p>После того как закончите редактировать данную новость нажмите на кнопку "Сохранить":</p>
 			<label>Заголовок: <br>
-				<input type="text" name="title" value="<?= $data['title']; ?>">
+				<input type="text" name="title" value="<?= $data->title; ?>">
 			</label><br>
 			<label>Дата публикации: <br>
-				<input type="date" name="date" value="<?= $data['date']; ?>">
+				<input type="date" name="date" value="<?= $data->date; ?>">
 			</label><br>
 			<label>Содержимое: <br>
-				<textarea name="content"><?= $data['content']; ?></textarea>
+				<textarea name="content"><?= $data->content; ?></textarea>
 			</label><br>
 			<input type="submit" name="submit" value="Сохранить">
 		</div>
