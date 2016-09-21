@@ -15,6 +15,28 @@
 		{
 			$model = new News();
 			$data = $model->findAll();
+			
+			/**
+			 * [cutStr Функция которая обрезает строку, при этом не обрезая слова]
+			 * @param  string  $str     [Сюда передается строка которую нужно обрезать]
+			 * @param  integer $length  [Указываем сколько символов оставить в строке, по умолчанию 300]
+			 * @param  string  $postfix [Постфикс, окончание строки, по умолчанию: ...]
+			 * @return string           [Возвращает обработанную строку]
+			 */
+			function cutStr($str, $length = 300, $postfix = '...')
+			{
+			    if (strlen($str) <= $length)
+			        return $str;
+			 
+			    $temp = substr($str, 0, $length);
+			    return substr($temp, 0, strrpos($temp, ' ') ) . $postfix;
+			}
+
+			//Перебираем $data и обрезаем строки
+			foreach ($data as $value) 
+			{
+				$value->content = cutStr($value->content);	
+			}
 
 			/**
 			 * Вызываем метод render() класса CView
