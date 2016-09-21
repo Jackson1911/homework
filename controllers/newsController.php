@@ -157,7 +157,7 @@
 
 			//Запрос к БД
 			$model = new News();
-			$model->findOne(['id' => $id]);
+			$model = $model->findOne(['id' => $id]);
 			$model->remove();
 			
 			//Редирект
