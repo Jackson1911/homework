@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Просмотр новости</title>
+	<title>Новостной сайт</title>
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="/views/styles.css">
 </head>
