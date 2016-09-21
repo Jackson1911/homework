@@ -71,7 +71,7 @@ class CActiveRecord implements IActiveRecord
     protected function delete()
     {
         return App::$db
-            ->delete($this->data)
+            ->delete()
             ->from(static::$table)
             ->execute();
     }
