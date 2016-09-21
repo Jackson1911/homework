@@ -3,6 +3,7 @@
 	use system\CView;
 	use system\SystemController;
 	use system\App;
+	use models\News;
 
 	class newsController extends SystemController
 	{
@@ -12,10 +13,8 @@
 		 */
 		public function actionIndex()
 		{
-			$data = App::$db->select('*')
-					->from('news')
-					->orderby('date')
-					->fetchAll();
+			$model = new News();
+			$data = $model->findAll();
 
 			/**
 			 * Вызываем метод render() класса CView
@@ -54,12 +53,11 @@
 				die();
 			}
 			
-			App::$db->table('news')
-					->insert([
-						'title' => $title,
-						'date' => $date,
-						'content' => $content
-						])->execute();
+			$model = new News();
+			$model->title = $title;
+			$model->date = $date;
+			$model->content = $content;
+			$model->save();
 
 			//Редирект на actionIndex
 			header('Location: /news/newsadmin');
@@ -74,11 +72,9 @@
 			$id = $_GET['id'];
 			//Запрос к БД
 			
-			$data = App::$db
-							->select('title, date, content')
-							->from('news')
-							->where(['id' => $id])
-							->fetchRow();
+			$model = new News();
+			$data = $model->findOne(['id' => $id]);
+			
 			/**
 			 * Вызываем метод render() класса CView
 			 * Рендерим представление
@@ -103,13 +99,12 @@
 			$content = $_POST['content'];
 
 			//Запрос к БД
-			App::$db
-					->table('news')
-					->update(['title' => $title,
-							  'date' => $date,
-							  'content' => $content,])
-					->where(['id' => $id])
-					->execute();
+			$model = new News();
+			$model = $model->findOne(['id' => $id]);
+			$model->title = $title;
+			$model->date = $date;
+			$model->content = $content;
+			$model->save();
 
 			//Редирект
 			header('Location: /news/newsadmin'); 
@@ -123,11 +118,8 @@
 			$id = $_GET['id'];
 
 			//Запрос к БД
-			$data = App::$db
-							->select('title, date, content')
-							->from('news')
-							->where(['id' => $id])
-							->fetchRow();
+			$model = new News();
+			$data = $model->findOne(['id' => $id]);
 
 			//Рендерим представление с полученными данными
 			CView::render('view', $data);
@@ -142,13 +134,10 @@
 			$id = $_GET['id'];
 
 			//Запрос к БД
-			App::$db
-					->delete()
-					->from('news')
-					->where([
-						'id' => $id,
-					])
-					->execute();
+			$model = new News();
+			$model->findOne(['id' => $id]);
+			$model->remove();
+			
 			//Редирект
 			header('Location: /news/newsadmin');
 		}
@@ -163,11 +152,8 @@
 		 */
 		public function actionNewsAdmin(){
 			//Запрос к БД
-			$data = App::$db
-							->select('*')
-							->from('news')
-							->orderby('date')
-							->fetchAll();
+			$model = new News();
+			$data = $model->findAll();
 
 			//Рендер представления
 			CView::render('admin', $data);
