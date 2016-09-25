@@ -3,7 +3,7 @@
 <head>
 	<title>Новостной сайт</title>
 	<meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="/views/styles.css">
+	<link rel="stylesheet" type="text/css" href="/assets/css/styles.css">
 	<script type="text/javascript" src="/assets/js/jquery-3.1.1.js"></script>
 	<script type="text/javascript" src="/assets/js/script.js"></script>
 </head>
