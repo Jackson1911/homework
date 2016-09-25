@@ -70,8 +70,7 @@
 			
 			//Проверяем заполненность полей.
 			if (empty($title) || empty($date) || empty($content)) {
-				//Если хоть одно поле пустое обновляем форму
-				header('Location: /news/create');
+				echo json_encode(['status' => 'err', 'message' => 'Ошибка: не все поля заполнены.']);
 				die();
 			}
 			
@@ -81,6 +80,11 @@
 			$model->content = $content;
 			$model->save();
 
+			if ($model->save = true) {
+				echo json_encode(['status' => 'ok', 'message' => 'Успех.']);
+			} else {
+				echo json_encode(['status' => 'err', 'message' => 'Ошибка']);
+			}
 		}
 
 		/**
@@ -126,6 +130,12 @@
 			$model->content = $content;
 			$model->save();
 
+			if ($model->save = true) {
+				echo json_encode(['status' => 'ok', 'message' => 'Успех.']);
+			} else {
+				echo json_encode(['status' => 'err', 'message' => 'Ошибка']);
+			}
+
 		}
 		
 		/**
@@ -156,6 +166,12 @@
 			$model = $model->findOne(['id' => $id]);
 			$model->remove();
 
+			if ($model->remove = true) {
+				echo json_encode(['status' => 'ok', 'message' => 'Успех.']);
+			} else {
+				echo json_encode(['status' => 'err', 'message' => 'Ошибка']);
+			}
+
 		}
 
 		/**
@@ -171,8 +187,12 @@
 			$model = new News();
 			$data = $model->findAll();
 
-			//Рендер представления
-			CView::render('admin', $data);
+			if (empty($data)) {
+				CView::render('admin');
+
+			} else {
+				CView::render('admin', $data);
+			}		
 		}
 	}
 ?>
