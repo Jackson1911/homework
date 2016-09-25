@@ -14,31 +14,34 @@ function ajaxNewsCreate(event){
 		type: 'post',
 		url: '/news/AjaxCreate',
 		data: formData,
+		dataType: 'json',
 
 		//Перед отправкой запроса:
+		//Проверяем не пустые ли значения
 		//Выводим блок который перекрывает остальные элементы(во избежание повторной отправки запроса)
 		beforeSend: function(){
 			$('.block').show();
 		},
 
 		//В случае успеха выводим уведомление
-		success: function(){
-			$(".success_msg").html('Новость добавлена');
-			$(".success_box").fadeIn(500).delay(1000).fadeOut(500);
-		},
+		success: function(res){
+			if (res.status == 'err') {
+				$(".error_msg").html('Вы не заполнили все поля.');
+				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
+				$('.block').hide();
+			}
 
-		//в случае ошибки выводим уведомление
-		error: function(){
-			$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднеее.');
-			$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
-		},
-
-		//В случае успешного завершения запроса
-		//Делаем редирект
-		complete: function(){
-			setTimeout(function() {
+			if (res.status == 'ok') {
+				$(".success_msg").html('Новость добавлена');
+				$(".success_box").fadeIn(500).delay(1000).fadeOut(500);
+				setTimeout(function() {
 				window.location.href = "/news/newsadmin";
 			}, 2000);
+			}	
+		},
+		error: function(){
+			$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
+			$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
 		}
 	})
 }
@@ -59,26 +62,32 @@ function ajaxNewsCreate(event){
  		url: '/news/AjaxUpdate?id=' + id,
  		method: 'post',
  		data: formData,
+ 		dataType: 'json',
 
  		beforeSend: function(){
  			$('.block').show();
  		},
 
- 		success: function(){
-			$(".success_msg").html('Новость обновлена');
-			$(".success_box").fadeIn(500).delay(1000).fadeOut(500);	
+ 		success: function(res){
+			if (res.status == 'err') {
+				$(".error_msg").html('Ошибка обновления');
+				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
+				$('.block').hide();
+			}
+
+			if (res.status == 'ok') {
+				$(".success_msg").html('Новость обновлена');
+				$(".success_box").fadeIn(500).delay(1000).fadeOut(500);
+				setTimeout(function() {
+				window.location.href = "/news/newsadmin";
+			}, 2000);
+			}	
 		},
 
 		error: function(){
-			$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднеее.');
-			$(".error_box").fadeIn(500).delay(2000).fadeOut(500);	
+			$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
+			$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
 		},
-
-		complete: function(){
-			setTimeout(function() {
-				window.location.href = "/news/newsadmin";
-			}, 2000);
-		}
  	})
  }
 
@@ -90,25 +99,31 @@ function ajaxNewsCreate(event){
 
  	$.ajax({
  		url: '/news/AjaxDelete?id=' + id,
+ 		dataType: 'json',
 
  		beforeSend: function(){
  			$('.block').show();
  		},
 
- 		success: function(){
-			$(".success_msg").html('Новость удалена');
-			$(".success_box").fadeIn(500).delay(1000).fadeOut(500);		
+ 		success: function(res){
+			if (res.status == 'err') {
+				$(".error_msg").html('Ошибка удаления');
+				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
+				$('.block').hide();
+			}
+
+			if (res.status == 'ok') {
+				$(".success_msg").html('Новость удалена');
+				$(".success_box").fadeIn(500).delay(1000).fadeOut(500);
+				setTimeout(function() {
+				window.location.href = "/news/newsadmin";
+			}, 2000);
+			}	
 		},
 
 		error: function(){
-			$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднеее.');
-			$(".error_box").fadeIn(500).delay(2000).fadeOut(500);	
+			$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
+			$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
 		},
-
-		complete: function(){
-			setTimeout(function() {
-				window.location.href = "/news/newsadmin";
-			}, 2000);
-		}
  	})
  }
