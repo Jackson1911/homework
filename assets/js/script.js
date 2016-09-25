@@ -16,24 +16,9 @@ function ajaxNewsCreate(event){
 		data: formData,
 
 		//Перед отправкой запроса:
-		//Проверяем не пустые ли значения
 		//Выводим блок который перекрывает остальные элементы(во избежание повторной отправки запроса)
 		beforeSend: function(){
 			$('.block').show();
-			if ($('form').find('input[name=name]').val() == '') 
-			{	
-				return false;
-
-			} else if ($('form').find('input[name=date]').val() == '') 
-			{
-				return false;
-
-			} else if ($('form').find('textarea[name=content]').val() == '') 
-			{
-				return false;
-			} else {
-				return true;
-			}
 		},
 
 		//В случае успеха выводим уведомление
@@ -43,13 +28,9 @@ function ajaxNewsCreate(event){
 		},
 
 		//в случае ошибки выводим уведомление
-		//И делаем редирект
 		error: function(){
 			$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднеее.');
 			$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
-			setTimeout(function() {
-				window.location.href = "/news/newsadmin";
-			}, 3000);	
 		},
 
 		//В случае успешного завершения запроса
@@ -72,7 +53,6 @@ function ajaxNewsCreate(event){
  	event.preventDefault();
 	console.log('do things...');
 
-	var id;
  	var formData = $('form').serialize();
 
  	$.ajax({
@@ -91,10 +71,7 @@ function ajaxNewsCreate(event){
 
 		error: function(){
 			$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднеее.');
-			$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
-			setTimeout(function() {
-				window.location.href = "/news/newsadmin";
-			}, 3000);	
+			$(".error_box").fadeIn(500).delay(2000).fadeOut(500);	
 		},
 
 		complete: function(){
@@ -111,8 +88,6 @@ function ajaxNewsCreate(event){
  */
  function ajaxNewsDelete(id){
 
- 	var id;
-
  	$.ajax({
  		url: '/news/AjaxDelete?id=' + id,
 
@@ -127,10 +102,7 @@ function ajaxNewsCreate(event){
 
 		error: function(){
 			$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднеее.');
-			$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
-			setTimeout(function() {
-				window.location.href = "/news/newsadmin";
-			}, 3000);	
+			$(".error_box").fadeIn(500).delay(2000).fadeOut(500);	
 		},
 
 		complete: function(){
