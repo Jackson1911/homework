@@ -56,12 +56,12 @@
 		}
 
 		/**
-		 * [actionCreateProcess - Добавляет данные с формы /news/create в базу данных]
+		 * [actionAjaxCreate - Добавляет данные с формы /news/create в базу данных]
 		 * @var $title - содержит POST данные из формы создания новости
 		 * @var $date - содержит POST данные из формы создания новости
 		 * @var $content - содержит POST данные из формы создания новости
 		 */
-		public function actionCreateProcess()
+		public function actionAjaxCreate()
 		{
 			//Создание коротких переменных для данных из POST
 			$title = $_POST['name'];
@@ -81,8 +81,6 @@
 			$model->content = $content;
 			$model->save();
 
-			//Редирект на actionIndex
-			header('Location: /news/newsadmin');
 		}
 
 		/**
@@ -108,11 +106,11 @@
 		}
 
 		/**
-		 * [actionUpdateProccess - делает SQL-запрос к БД и добавляет отредактированные данные]
+		 * [actionAjaxUpdate - делает SQL-запрос к БД и добавляет отредактированные данные]
 		 * @var $id - получает GET параметр id новости
 		 * 
 		 */
-		public function actionUpdateProcess(){
+		public function actionAjaxUpdate(){
 			$id = $_GET['id'];
 
 			//Создание коротких перемнных
@@ -128,8 +126,6 @@
 			$model->content = $content;
 			$model->save();
 
-			//Редирект
-			header('Location: /news/newsadmin'); 
 		}
 		
 		/**
@@ -149,9 +145,9 @@
 		}
 
 		/**
-		 * [actionDelete - Удаляет новость по ее id]
+		 * [actionAjaxDelete - Удаляет новость по ее id]
 		 */
-		public function actionDelete(){
+		public function actionAjaxDelete(){
 			//Создение короткой переменной
 			$id = $_GET['id'];
 
@@ -159,9 +155,7 @@
 			$model = new News();
 			$model = $model->findOne(['id' => $id]);
 			$model->remove();
-			
-			//Редирект
-			header('Location: /news/newsadmin');
+
 		}
 
 		/**
