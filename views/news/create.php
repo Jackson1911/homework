@@ -1,7 +1,7 @@
 <div class="createstyle">
 	<h3>Добавить новость</h3>
 	<hr>
-	<form method="POST" action="/news/CreateProcess">
+	<form onsubmit="ajaxNewsCreate(event)">
 		<div>
 			<p>Для добавления новости заполните следующие поля и нажмите на кнопку "Добавить":</p>
 			<label>Заголовок: <br>
@@ -13,8 +13,9 @@
 			<label>Содержимое: <br>
 				<textarea name="content" required></textarea>
 			</label><br>
-			<input type="submit" name="submit" value="Добавить">
+			<input id="submit-btn" type="submit" value="Добавить">
 		</div>
 	</form>
+	
 </div>
 
