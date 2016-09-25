@@ -2,12 +2,18 @@
 	<h3>Управление новостями</h3>
 	<hr>
 	<a href="/news/create">Добавить новую новость</a>
+	
+<?php if (!empty($data)): ?>
 	<table border="2" cellspacing="0" cellpadding="0">
 		<tr style="font-weight: bold; background: silver; text-align: center">
 			<td>Заголовок:</td>
 			<td>Дата публикации:</td>
 			<td colspan="3">Действия:</td>
 		</tr>
+<?php else: ?>
+	<p style="font-weight: bold">Новости отсутствуют...</p>
+<?php endif; ?>
+			
 	<?php foreach ($data as $value): ?>
 		<tr>
 			<td><?= $value->title; ?></td>
