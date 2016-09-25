@@ -20,5 +20,3 @@
 	</table>
 	<a href="/news/index">Вернуться на главную</a>
 </div>
-
- <? //href="/news/delete?id=<?= $value->id; ?>
