@@ -1,7 +1,7 @@
 <div class="updatestyle">
 	<h3>Редактировать новость</h3>
 	<hr>
-	<form action="/assets/js/script.js" onsubmit="ajaxNewsUpdate(event, <?= $data->id ?>)">
+	<form onsubmit="ajaxNewsUpdate(event, <?= $data->id ?>)">
 		<div>
 			<p>После того как закончите редактировать данную новость нажмите на кнопку "Сохранить":</p>
 			<label>Заголовок: <br>
