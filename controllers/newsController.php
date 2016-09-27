@@ -1,9 +1,9 @@
 <?php
-	namespace controllers;
-	use system\CView;
-	use system\SystemController;
-	use system\App;
-	use models\News;
+namespace controllers;
+use system\CView;
+use system\SystemController;
+use system\App;
+use models\News;
 
 	class newsController extends SystemController
 	{
@@ -14,7 +14,7 @@
 		 * @param  string  $postfix [Постфикс, окончание строки, по умолчанию: ...]
 		 * @return string           [Возвращает обработанную строку]
 		 */
-		function cutStr($str, $length = 300, $postfix = '...')
+		public function cutStr($str, $length = 300, $postfix = '...')
 		{
 			if (strlen($str) <= $length)
 			    return $str;
@@ -80,7 +80,7 @@
 			$model->content = $content;
 			$model->save();
 
-			if ($model->save = true) {
+			if ($model->save) {
 				echo json_encode(['status' => 'ok', 'message' => 'Успех.']);
 			} else {
 				echo json_encode(['status' => 'err', 'message' => 'Ошибка']);
@@ -130,7 +130,7 @@
 			$model->content = $content;
 			$model->save();
 
-			if ($model->save = true) {
+			if ($model->save) {
 				echo json_encode(['status' => 'ok', 'message' => 'Успех.']);
 			} else {
 				echo json_encode(['status' => 'err', 'message' => 'Ошибка']);
@@ -166,7 +166,7 @@
 			$model = $model->findOne(['id' => $id]);
 			$model->remove();
 
-			if ($model->remove = true) {
+			if ($model->remove) {
 				echo json_encode(['status' => 'ok', 'message' => 'Успех.']);
 			} else {
 				echo json_encode(['status' => 'err', 'message' => 'Ошибка']);
@@ -195,4 +195,3 @@
 			}		
 		}
 	}
-?>
