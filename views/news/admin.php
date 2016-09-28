@@ -1,28 +1,40 @@
-<div class="adminstyle">
+<div class="admin-panel">
 	<h3>Управление новостями</h3>
 	<hr>
-	<a href="/news/create">Добавить новую новость</a>
+	<a class="btn btn-success" href="/news/create"><i class="glyphicon glyphicon-plus"></i> Добавить новую новость</a>
 	
 <?php if (!empty($data)): ?>
-	<table border="2" cellspacing="0" cellpadding="0">
-		<tr style="font-weight: bold; background: silver; text-align: center">
-			<td>Заголовок:</td>
-			<td>Дата публикации:</td>
-			<td colspan="3">Действия:</td>
+	<table class="table table-striped table-hover admin-table">
+		<tr class="info">
+			<th>Заголовок:</th>
+			<th class="text-center">Дата публикации:</th>
+			<th colspan="3">Действия:</th>
 		</tr>
 <?php else: ?>
-	<p style="font-weight: bold">Новости отсутствуют...</p>
+	<p>Новости отсутствуют...</p>
 <?php endif; ?>
 			
 	<?php foreach ($data as $value): ?>
 		<tr>
 			<td><?= $value->title; ?></td>
-			<td style="text-align: center"><?= $value->date; ?></td>
-			<td style="text-align: center"><a href="/news/view?id=<?= $value->id; ?>">Просмотреть</a></td>
-			<td style="text-align: center"><a href="/news/update?id=<?= $value->id; ?>">Редактировать</a></td>
-			<td style="text-align: center"><a id="delete-link" onclick="ajaxNewsDelete(<?= $value->id; ?>)">Удалить</a></td>
+			<td class="text-center"><?= $value->date; ?></td>
+			<td width="1">
+				<a title="Посмотреть" class="btn btn-success btn-xs" href="/news/view?id=<?= $value->id; ?>">
+					<i class="glyphicon glyphicon-eye-open"></i>
+				</a>
+			</td>
+			<td width="1">
+				<a title="Редактировать" class="btn btn-warning btn-xs" href="/news/update?id=<?= $value->id; ?>">
+					<i class="glyphicon glyphicon-pencil"></i>
+				</a>
+			</td>
+			<td width="1">
+				<a title="Удалить" class="btn btn-danger btn-xs" onclick="ajaxNewsDelete(<?= $value->id; ?>)">
+					<i class="glyphicon glyphicon-remove"></i>
+				</a>
+			</td>
 		</tr>
 	<?php endforeach ?>	
 	</table>
-	<a href="/news/index">Вернуться на главную</a>
+	<a class="btn btn-default" href="/news/index"><i class="glyphicon glyphicon-chevron-left"></i> Вернуться на главную</a>
 </div>
