@@ -31,6 +31,7 @@ body {
 	border: 1px solid #C9C5C5;
 	-webkit-border-radius: 10px 10px 10px 10px;
 	border-radius: 10px 10px 10px 10px;
+	font-size: 16px;
 }
 .content {
 	margin-top: 90px;
