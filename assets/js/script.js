@@ -28,7 +28,9 @@ function ajaxNewsCreate(event){
 			if (res.status == 'err') {
 				$(".error_msg").html('Вы не заполнили все поля.');
 				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
-				$('.block').hide();
+				setTimeout(function() {
+					$('.block').hide();
+				}, 3000);
 			}
 
 			if (res.status == 'ok') {
@@ -42,7 +44,9 @@ function ajaxNewsCreate(event){
 		error: function(){
 			$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
 			$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
-			$('.block').hide();
+			setTimeout(function() {
+				$('.block').hide();
+			}, 3000);
 		}
 	})
 }
@@ -73,7 +77,9 @@ function ajaxNewsCreate(event){
 			if (res.status == 'err') {
 				$(".error_msg").html('Ошибка обновления');
 				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
-				$('.block').hide();
+				setTimeout(function() {
+					$('.block').hide();
+				}, 3000);
 			}
 
 			if (res.status == 'ok') {
@@ -88,7 +94,9 @@ function ajaxNewsCreate(event){
 		error: function(){
 			$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
 			$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
-			$('.block').hide();
+			setTimeout(function() {
+				$('.block').hide();
+			}, 3000);
 		},
  	})
  }
@@ -111,7 +119,9 @@ function ajaxNewsCreate(event){
 			if (res.status == 'err') {
 				$(".error_msg").html('Ошибка удаления');
 				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
-				$('.block').hide();
+				setTimeout(function() {
+					$('.block').hide();
+				}, 3000);
 			}
 
 			if (res.status == 'ok') {
@@ -126,7 +136,9 @@ function ajaxNewsCreate(event){
 		error: function(){
 			$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
 			$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
-			$('.block').hide();
+			setTimeout(function() {
+				$('.block').hide();
+			}, 3000);
 		},
  	})
  }
