@@ -42,6 +42,7 @@ function ajaxNewsCreate(event){
 		error: function(){
 			$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
 			$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
+			$('.block').hide();
 		}
 	})
 }
@@ -87,6 +88,7 @@ function ajaxNewsCreate(event){
 		error: function(){
 			$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
 			$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
+			$('.block').hide();
 		},
  	})
  }
@@ -124,6 +126,7 @@ function ajaxNewsCreate(event){
 		error: function(){
 			$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
 			$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
+			$('.block').hide();
 		},
  	})
  }
