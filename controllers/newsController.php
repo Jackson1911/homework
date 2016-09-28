@@ -78,7 +78,6 @@ class newsController extends SystemController
 		$model->title = $title;
 		$model->date = $date;
 		$model->content = $content;
-		$model->save();
 
 		if ($model->save()) {
 			echo json_encode(['status' => 'ok', 'message' => 'Успех.']);
@@ -128,7 +127,6 @@ class newsController extends SystemController
 		$model->title = $title;
 		$model->date = $date;
 		$model->content = $content;
-		$model->save();
 
 		if ($model->save()) {
 			echo json_encode(['status' => 'ok', 'message' => 'Успех.']);
@@ -164,7 +162,6 @@ class newsController extends SystemController
 		//Запрос к БД
 		$model = new News();
 		$model = $model->findOne(['id' => $id]);
-		$model->remove();
 
 		if ($model->remove()) {
 			echo json_encode(['status' => 'ok', 'message' => 'Успех.']);
