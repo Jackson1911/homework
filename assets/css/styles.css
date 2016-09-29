@@ -1,26 +1,6 @@
 body {
 	background: #edeef0;
-}
-.header {
-	width: 100%;
-	z-index: 9;
-	position: fixed;
-	background: black;
-	text-transform: uppercase;
-	text-decoration: none;
-	padding: 20px 0px 20px 0px;
-	-webkit-box-shadow: 0px 3px 22px 0px rgba(0,0,0,0.75);
-	-moz-box-shadow: 0px 3px 22px 0px rgba(0,0,0,0.75);
-	box-shadow: 0px 3px 22px 0px rgba(0,0,0,0.75);
-}
-
-.nav a {
-	color: white;
-	text-decoration: none;
-	font-weight: bold;
-}
-.nav a:hover {
-	color: #7EADFC;
+	padding-top: 60px;
 }
 
 .admin-panel, .forms, .news-view, .lenta {
@@ -33,9 +13,7 @@ body {
 	border-radius: 10px 10px 10px 10px;
 	font-size: 16px;
 }
-.content {
-	margin-top: 90px;
-}
+
 .lenta:hover {
 	transition: 0.2s linear;
 	-webkit-transform: scale(1.02);
