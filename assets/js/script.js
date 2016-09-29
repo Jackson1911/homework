@@ -204,7 +204,9 @@ function ajaxNewsCreate(event){
 				$('.password').removeClass('has-success').addClass('has-error');
 				$('#pass1').after($('#helpBlock1').html('Пароль должен содержать менее 20 символов'));
 				return false;
-			} 	 
+			}
+			
+			$('.block').show();
  		},
 
  		success: function(res){
