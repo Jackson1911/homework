@@ -6,8 +6,6 @@
 	<link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="/assets/css/styles.css">
 	<script type="text/javascript" src="/assets/js/jquery-3.1.1.js"></script>
-	<script type="text/javascript" src="/assets/js/bootstrap.js"></script>
-	<script type="text/javascript" src="/assets/js/bootstrap-confirmation.js"></script>
 	<script type="text/javascript" src="/assets/js/script.js"></script>
 </head>
 <body>
@@ -39,11 +37,6 @@
 		</div>
 		<div class="success_box">
 			<div class="success_msg"></div>	
-		</div>
-		<div class="confirm_box">
-			<div class="confirm_msg"></div>
-			<button id="confirm">Подтвердить</button>
-			<button id="cancel">Отмена</button>
 		</div>
 </body>
 </html>
