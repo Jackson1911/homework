@@ -4,6 +4,7 @@ use system\CView;
 use system\SystemController;
 use system\App;
 use models\News;
+use models\Users;
 
 class newsController extends SystemController
 {
@@ -190,5 +191,37 @@ class newsController extends SystemController
 		} else {
 			CView::render('admin', $data);
 		}		
+	}
+
+	public function actionRegistration(){
+
+		CView::render('registration');
+
+	}
+
+	public function actionRegistrationProcess(){
+
+		$login = $_POST['login'];
+		$password = $_POST['pass1'];
+		$passwordAccept = $_POST['pass2'];
+		$email = $_POST['email'];
+
+		if ($password != $passwordAccept) {
+			echo json_encode(['status' => 'err', 'message' => 'Ошибка. Пароли не совпадают']);
+			die();
+		}
+
+		$hash = md5($password);
+
+		$model = new Users();
+		$model->login = $login;
+		$model->password = $hash;
+		$model->email = $email;
+
+		if ($model->save()) {
+			echo json_encode(['status' => 'ok', 'message' => 'Успех.']);
+		} else {
+			echo json_encode(['status' => 'err', 'message' => 'Ошибка']);
+		}
 	}
 }
