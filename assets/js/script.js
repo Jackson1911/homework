@@ -142,3 +142,96 @@ function ajaxNewsCreate(event){
 		},
  	})
  }
+
+ function passwordCompare(){
+
+ 	$(document).ready(function(){
+		var password  = $('#pass1').val();
+		var passwordAccept = $('#pass2').val();
+
+		if (password != passwordAccept) {
+			$('.passwordAccept').removeClass('has-success').addClass('has-error');
+			$('#pass2').after($('#helpBlock2').html('Пароли не совпадают'));
+
+		} else if (password = passwordAccept) {
+			$('.passwordAccept').removeClass('has-error').addClass('has-success');
+			$('#pass2').after($('#helpBlock2').html(''));
+		}
+
+		if (password.length < 8) {
+			$('.password').removeClass('has-success').addClass('has-error');
+			$('#pass1').after($('#helpBlock1').html('Пароль должен содержать не менее 8 символов'));
+		} else if (password.length >= 8){
+			$('.password').removeClass('has-error').addClass('has-success');
+			$('#pass1').after($('#helpBlock1').html(''));
+		}
+
+		if (password.length > 20) {
+			$('.password').removeClass('has-success').addClass('has-error');
+			$('#pass1').after($('#helpBlock1').html('Пароль должен содержать менее 20 символов'));
+		}
+	});
+ }
+
+ function ajaxNewsRegistration(event){
+
+ 	event.preventDefault();
+	console.log('do things...');
+
+ 	var formData = $('form').serialize();
+
+ 	$.ajax({
+ 		type: 'post',
+ 		url: '/news/RegistrationProcess',
+ 		data: formData,
+ 		dataType: 'json',
+ 		beforeSend: function(){
+
+ 			var password  = $('#pass1').val();
+			var passwordAccept = $('#pass2').val();
+
+		 	if (password != passwordAccept) {
+				$('.passwordAccept').removeClass('has-success').addClass('has-error');
+				$('#pass2').after($('#helpBlock2').html('Пароли не совпадают'));
+				return false;
+			}
+		 	if (password.length < 8) {
+				$('.password').removeClass('has-success').addClass('has-error');
+				$('#pass1').after($('#helpBlock1').html('Пароль должен содержать не менее 8 символов'));
+				return false;
+			}
+			if (password.length > 20) {
+				$('.password').removeClass('has-success').addClass('has-error');
+				$('#pass1').after($('#helpBlock1').html('Пароль должен содержать менее 20 символов'));
+				return false;
+			} 	 
+ 		},
+
+ 		success: function(res){
+
+			if (res.status == 'err') {
+				$(".error_msg").html('Ошибка регистрации');
+				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
+				setTimeout(function() {
+					$('.block').hide();
+				}, 3000);
+			}
+
+			if (res.status == 'ok') {
+				$(".success_msg").html('Успешная регистрация. \n Сейчас будет выполнен переход на главную страницу...');
+				$(".success_box").fadeIn(500).delay(3000).fadeOut(500);
+				setTimeout(function() {
+					window.location.href = "/news/index";
+				}, 4000);
+			}	
+		},
+
+		error: function(){
+			$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
+			$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
+			setTimeout(function() {
+				$('.block').hide();
+			}, 3000);
+		},
+ 	})
+ }
