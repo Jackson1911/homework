@@ -1,6 +1,6 @@
 /**
- * [ajaxNewsCreate функция добавления новости посредством AJAX]
- */
+* [ajaxNewsCreate функция добавления новости посредством AJAX]
+*/
 function ajaxNewsCreate(event){
 
 	event.preventDefault();
@@ -9,143 +9,152 @@ function ajaxNewsCreate(event){
 	// Заносим в переменную formData данные с формы
 	var formData = $('form').serialize();
 
-	//Делаем запрос. Передаем данные.
-	$.ajax({
-		type: 'post',
-		url: '/news/AjaxCreate',
-		data: formData,
-		dataType: 'json',
+	$('#myModal').modal({backdrop: "static"});
+	$('.modal-dialog').css('margin-top','15%');
+	$('.modal-header').css('background','#449d44');
+	$('.modal-title').html('Добавление новости').css('color','#fff');
+	$("#modal-text").html('Этот процесс необратим. Вы уверены что хотите добавить эту новость?');
+	$("#modal-close").html('Отмена');
+	$("#modal-save").removeClass('btn-primary').addClass('btn-success').html('Добавить');
 
-		//Перед отправкой запроса:
-		//Проверяем не пустые ли значения
-		//Выводим блок который перекрывает остальные элементы(во избежание повторной отправки запроса)
-		beforeSend: function(){
-			$('.block').show();
-		},
+	$('#modal-save').click(function(event){
 
-		//В случае успеха выводим уведомление
-		success: function(res){
-			if (res.status == 'err') {
-				$(".error_msg").html('Вы не заполнили все поля.');
+		$('#modal-save').attr('disabled', 'true');
+		$('#modal-close').attr('disabled', 'true');
+
+		//Делаем запрос. Передаем данные.
+		$.ajax({
+			type: 'post',
+			url: '/news/AjaxCreate',
+			data: formData,
+			dataType: 'json',
+
+			//В случае успеха выводим уведомление
+			success: function(res){
+				if (res.status == 'err') {
+					$(".error_msg").html('Вы не заполнили все поля.');
+					$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
+				}
+
+				if (res.status == 'ok') {
+					$(".success_msg").html('Новость добавлена');
+					$(".success_box").fadeIn(500).delay(1000).fadeOut(500);
+					setTimeout(function() {
+					window.location.href = "/news/newsadmin";
+					}, 2000);
+				}	
+			},
+			error: function(){
+				$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
 				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
-				setTimeout(function() {
-					$('.block').hide();
-				}, 3000);
 			}
-
-			if (res.status == 'ok') {
-				$(".success_msg").html('Новость добавлена');
-				$(".success_box").fadeIn(500).delay(1000).fadeOut(500);
-				setTimeout(function() {
-				window.location.href = "/news/newsadmin";
-			}, 2000);
-			}	
-		},
-		error: function(){
-			$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
-			$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
-			setTimeout(function() {
-				$('.block').hide();
-			}, 3000);
-		}
-	})
+		})
+	});	
 }
 
 /**
- * [ajaxNewsUpdate функция обновления новости]
- * 
- * @param  {int} id    [id обновляемой новости]
- */
- function ajaxNewsUpdate(event, id){
+* [ajaxNewsUpdate функция обновления новости]
+* 
+* @param  {int} id    [id обновляемой новости]
+*/
+function ajaxNewsUpdate(event, id){
 
- 	event.preventDefault();
+	event.preventDefault();
 	console.log('do things...');
 
- 	var formData = $('form').serialize();
+	var formData = $('form').serialize();
 
- 	$.ajax({
- 		url: '/news/AjaxUpdate?id=' + id,
- 		method: 'post',
- 		data: formData,
- 		dataType: 'json',
+	$('#myModal').modal({backdrop: "static"});
+	$('.modal-dialog').css('margin-top','15%');
+	$('.modal-header').css('background','#449d44');
+	$('.modal-title').html('Редактирование новости').css('color','#fff');
+	$("#modal-text").html('Этот процесс необратим. Вы уверены что хотите сохранить изменения?');
+	$("#modal-close").html('Отмена');
+	$("#modal-save").removeClass('btn-primary').addClass('btn-success').html('Сохранить');
 
- 		beforeSend: function(){
- 			$('.block').show();
- 		},
+	$('#modal-save').click(function(event){
 
- 		success: function(res){
-			if (res.status == 'err') {
-				$(".error_msg").html('Ошибка обновления');
+		$('#modal-save').attr('disabled', 'true');
+		$('#modal-close').attr('disabled', 'true');
+
+		$.ajax({
+			url: '/news/AjaxUpdate?id=' + id,
+			method: 'post',
+			data: formData,
+			dataType: 'json',
+
+			success: function(res){
+				if (res.status == 'err') {
+					$(".error_msg").html('Ошибка обновления');
+					$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
+				}
+
+				if (res.status == 'ok') {
+					$(".success_msg").html('Новость обновлена');
+					$(".success_box").fadeIn(500).delay(1000).fadeOut(500);
+					setTimeout(function() {
+						window.location.href = "/news/newsadmin";
+					}, 2000);
+				}	
+			},
+
+			error: function(){
+				$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
 				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
-				setTimeout(function() {
-					$('.block').hide();
-				}, 3000);
-			}
-
-			if (res.status == 'ok') {
-				$(".success_msg").html('Новость обновлена');
-				$(".success_box").fadeIn(500).delay(1000).fadeOut(500);
-				setTimeout(function() {
-				window.location.href = "/news/newsadmin";
-			}, 2000);
-			}	
-		},
-
-		error: function(){
-			$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
-			$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
-			setTimeout(function() {
-				$('.block').hide();
-			}, 3000);
-		},
- 	})
- }
+			},
+		})
+	});	
+}
 
 /**
- * [ajaxNewsDelete Функция удаления новости]
- * @param  {int} id [id удаляемой новости]
- */
- function ajaxNewsDelete(id){
+* [ajaxNewsDelete Функция удаления новости]
+* @param  {int} id [id удаляемой новости]
+*/
+function ajaxNewsDelete(id){
 
- 	$.ajax({
- 		url: '/news/AjaxDelete?id=' + id,
- 		dataType: 'json',
+	$('#myModal').modal({backdrop: "static"});
+	$('.modal-dialog').css('margin-top','15%');
+	$('.modal-header').css('background','#d9534f');
+	$('.modal-title').html('Удаление новости').css('color','#fff');
+	$("#modal-text").html('Этот процесс необратим. Вы уверены что хотите удалить эту новость?');
+	$("#modal-close").html('Отмена');
+	$("#modal-save").removeClass('btn-primary').addClass('btn-danger').html('Удалить');
 
- 		beforeSend: function(){
- 			$('.block').show();
- 		},
+	$('#modal-save').click(function(event){
 
- 		success: function(res){
+		$('#modal-save').attr('disabled', 'true');
+		$('#modal-close').attr('disabled', 'true');
+
+		$.ajax({
+		url: '/news/AjaxDelete?id=' + id,
+		dataType: 'json',
+
+		success: function(res){
 			if (res.status == 'err') {
 				$(".error_msg").html('Ошибка удаления');
 				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
-				setTimeout(function() {
-					$('.block').hide();
-				}, 3000);
 			}
 
 			if (res.status == 'ok') {
 				$(".success_msg").html('Новость удалена');
 				$(".success_box").fadeIn(500).delay(1000).fadeOut(500);
 				setTimeout(function() {
-				window.location.href = "/news/newsadmin";
-			}, 2000);
+					window.location.href = "/news/newsadmin";
+				}, 2000);
 			}	
 		},
 
-		error: function(){
-			$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
-			$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
-			setTimeout(function() {
-				$('.block').hide();
-			}, 3000);
-		},
- 	})
- }
+			error: function(){
+				$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
+				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
+			},
+		})
+	});	
+}
 
- function passwordCompare(){
+function passwordCompare(){
 
- 	$(document).ready(function(){
+	$(document).ready(function(){
 		var password  = $('#pass1').val();
 		var passwordAccept = $('#pass2').val();
 
@@ -171,52 +180,60 @@ function ajaxNewsCreate(event){
 			$('#pass1').after($('#helpBlock1').html('Пароль должен содержать менее 20 символов'));
 		}
 	});
- }
+}
 
- function ajaxNewsRegistration(event){
+function ajaxNewsRegistration(event){
 
- 	event.preventDefault();
+	event.preventDefault();
 	console.log('do things...');
 
- 	var formData = $('form').serialize();
+	var formData = $('form').serialize();
 
- 	$.ajax({
- 		type: 'post',
- 		url: '/news/RegistrationProcess',
- 		data: formData,
- 		dataType: 'json',
- 		beforeSend: function(){
+	$('#myModal').modal({backdrop: "static"});
+	$('.modal-dialog').css('margin-top','10%');
+	$('.modal-header').css('background','#449d44');
+	$('.modal-title').html('Завершение регистрации').css('color','#fff');
+	$("#modal-text").html('Этот процесс необратим. Если вы уверены что ввели правильные данные нажмите \"Завершить\"');
+	$("#modal-close").html('Отмена');
+	$("#modal-save").removeClass('btn-primary').addClass('btn-success').html('Завершить');
 
- 			var password  = $('#pass1').val();
-			var passwordAccept = $('#pass2').val();
+	$('#modal-save').click(function(event){
 
-		 	if (password != passwordAccept) {
-				$('.passwordAccept').removeClass('has-success').addClass('has-error');
-				$('#pass2').after($('#helpBlock2').html('Пароли не совпадают'));
-				return false;
-			}
-		 	if (password.length < 8) {
-				$('.password').removeClass('has-success').addClass('has-error');
-				$('#pass1').after($('#helpBlock1').html('Пароль должен содержать не менее 8 символов'));
-				return false;
-			}
-			if (password.length > 20) {
-				$('.password').removeClass('has-success').addClass('has-error');
-				$('#pass1').after($('#helpBlock1').html('Пароль должен содержать менее 20 символов'));
-				return false;
-			}
-			
-			$('.block').show();
- 		},
+		$('#modal-save').attr('disabled', 'true');
+		$('#modal-close').attr('disabled', 'true');
 
- 		success: function(res){
+		$.ajax({
+			type: 'post',
+			url: '/news/RegistrationProcess',
+			data: formData,
+			dataType: 'json',
+			beforeSend: function(){
+
+				var password  = $('#pass1').val();
+				var passwordAccept = $('#pass2').val();
+
+			 	if (password != passwordAccept) {
+					$('.passwordAccept').removeClass('has-success').addClass('has-error');
+					$('#pass2').after($('#helpBlock2').html('Пароли не совпадают'));
+					return false;
+				}
+			 	if (password.length < 8) {
+					$('.password').removeClass('has-success').addClass('has-error');
+					$('#pass1').after($('#helpBlock1').html('Пароль должен содержать не менее 8 символов'));
+					return false;
+				}
+				if (password.length > 20) {
+					$('.password').removeClass('has-success').addClass('has-error');
+					$('#pass1').after($('#helpBlock1').html('Пароль должен содержать менее 20 символов'));
+					return false;
+				}
+			},
+
+			success: function(res){
 
 			if (res.status == 'err') {
 				$(".error_msg").html('Ошибка регистрации');
 				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
-				setTimeout(function() {
-					$('.block').hide();
-				}, 3000);
 			}
 
 			if (res.status == 'ok') {
@@ -228,12 +245,10 @@ function ajaxNewsCreate(event){
 			}	
 		},
 
-		error: function(){
-			$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
-			$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
-			setTimeout(function() {
-				$('.block').hide();
-			}, 3000);
-		},
- 	})
- }
+			error: function(){
+				$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
+				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
+			},
+		})
+	});
+}
