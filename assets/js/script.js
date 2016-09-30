@@ -10,7 +10,7 @@ function ajaxNewsCreate(event){
 	var formData = $('form').serialize();
 
 	$('#myModal').modal({backdrop: "static"});
-	$('.modal-dialog').css('margin-top','70px');
+	$('.modal-dialog').css('margin-top','15%');
 	$('.modal-header').css('background','#449d44');
 	$('.modal-title').html('Добавление новости').css('color','#fff');
 	$("#modal-text").html('Этот процесс необратим. Вы уверены что хотите добавить эту новость?');
@@ -65,7 +65,7 @@ function ajaxNewsUpdate(event, id){
 	var formData = $('form').serialize();
 
 	$('#myModal').modal({backdrop: "static"});
-	$('.modal-dialog').css('margin-top','70px');
+	$('.modal-dialog').css('margin-top','15%');
 	$('.modal-header').css('background','#449d44');
 	$('.modal-title').html('Редактирование новости').css('color','#fff');
 	$("#modal-text").html('Этот процесс необратим. Вы уверены что хотите сохранить изменения?');
@@ -113,7 +113,7 @@ function ajaxNewsUpdate(event, id){
 function ajaxNewsDelete(id){
 
 	$('#myModal').modal({backdrop: "static"});
-	$('.modal-dialog').css('margin-top','70px');
+	$('.modal-dialog').css('margin-top','15%');
 	$('.modal-header').css('background','#d9534f');
 	$('.modal-title').html('Удаление новости').css('color','#fff');
 	$("#modal-text").html('Этот процесс необратим. Вы уверены что хотите удалить эту новость?');
@@ -190,7 +190,7 @@ function ajaxNewsRegistration(event){
 	var formData = $('form').serialize();
 
 	$('#myModal').modal({backdrop: "static"});
-	$('.modal-dialog').css('margin-top','70px');
+	$('.modal-dialog').css('margin-top','10%');
 	$('.modal-header').css('background','#449d44');
 	$('.modal-title').html('Завершение регистрации').css('color','#fff');
 	$("#modal-text").html('Этот процесс необратим. Если вы уверены что ввели правильные данные нажмите \"Завершить\"');
