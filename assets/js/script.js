@@ -223,7 +223,7 @@ function passwordCompare(){
 /**
  * [ajaxNewsRegistration - функция регистрации нового пользователя]
  */
-function ajaxNewsRegistration(event){
+function ajaxUsersRegistration(event){
 
 	event.preventDefault();
 	console.log('do things...');
@@ -245,7 +245,7 @@ function ajaxNewsRegistration(event){
 
 		$.ajax({
 			type: 'post',
-			url: '/news/RegistrationProcess',
+			url: '/users/RegistrationProcess',
 			data: formData,
 			dataType: 'json',
 			beforeSend: function(){
