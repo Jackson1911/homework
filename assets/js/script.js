@@ -10,13 +10,7 @@ function ajaxNewsCreate(event){
 	var formData = $('form').serialize();
 
 	//Формируем модальное окно
-	$('#myModal').modal({backdrop: "static"});
-	$('.modal-dialog').css('margin-top','70px');
-	$('.modal-header').css('background','#449d44');
-	$('.modal-title').html('Добавление новости').css('color','#fff');
-	$("#modal-text").html('Этот процесс необратим. Вы уверены что хотите добавить эту новость?');
-	$("#modal-close").html('Отмена');
-	$("#modal-save").removeClass('btn-primary').addClass('btn-success').html('Добавить');
+	$('#modal-create').modal({backdrop: "static"});
 
 	//Обрабатываем нажатие кнопки подтверждения действия
 	$('#modal-save').click(function(event){
@@ -38,7 +32,7 @@ function ajaxNewsCreate(event){
 					$(".error_msg").html('Вы не заполнили все поля.');
 					$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
 					setTimeout(function() {
-						$('#myModal').modal('hide');
+						$('#modal-create').modal('hide');
 						$('#modal-save').removeAttr('disabled');
 						$('#modal-close').removeAttr('disabled');
 					}, 3000);
@@ -56,7 +50,7 @@ function ajaxNewsCreate(event){
 				$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
 				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
 				setTimeout(function() {
-					$('#myModal').modal('hide');
+					$('#modal-create').modal('hide');
 					$('#modal-save').removeAttr('disabled');
 					$('#modal-close').removeAttr('disabled');
 				}, 3000);
@@ -78,13 +72,7 @@ function ajaxNewsUpdate(event, id){
 	var formData = $('form').serialize();
 
 	//Формируем модальное окно
-	$('#myModal').modal({backdrop: "static"});
-	$('.modal-dialog').css('margin-top','70px');
-	$('.modal-header').css('background','#449d44');
-	$('.modal-title').html('Редактирование новости').css('color','#fff');
-	$("#modal-text").html('Этот процесс необратим. Вы уверены что хотите сохранить изменения?');
-	$("#modal-close").html('Отмена');
-	$("#modal-save").removeClass('btn-primary').addClass('btn-success').html('Сохранить');
+	$('#modal-update').modal({backdrop: "static"});
 
 	//Обрабатываем нажатие кнопки подтверждения действия
 	$('#modal-save').click(function(event){
@@ -103,9 +91,9 @@ function ajaxNewsUpdate(event, id){
 					$(".error_msg").html('Ошибка обновления');
 					$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
 					setTimeout(function() {
-						$('#myModal').modal('hide');
+						$('#modal-update').modal('hide');
 						$('#modal-save').removeAttr('disabled');
-					$('#modal-close').removeAttr('disabled');
+						$('#modal-close').removeAttr('disabled');
 					}, 3000);
 				}
 
@@ -122,7 +110,7 @@ function ajaxNewsUpdate(event, id){
 				$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
 				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
 				setTimeout(function() {
-					$('#myModal').modal('hide');
+					$('#modal-update').modal('hide');
 					$('#modal-save').removeAttr('disabled');
 					$('#modal-close').removeAttr('disabled');
 				}, 3000);
@@ -137,13 +125,7 @@ function ajaxNewsUpdate(event, id){
 */
 function ajaxNewsDelete(id){
 
-	$('#myModal').modal({backdrop: "static"});
-	$('.modal-dialog').css('margin-top','70px');
-	$('.modal-header').css('background','#d9534f');
-	$('.modal-title').html('Удаление новости').css('color','#fff');
-	$("#modal-text").html('Этот процесс необратим. Вы уверены что хотите удалить эту новость?');
-	$("#modal-close").html('Отмена');
-	$("#modal-save").removeClass('btn-primary').addClass('btn-danger').html('Удалить');
+	$('#modal-delete').modal({backdrop: "static"});
 
 	$('#modal-save').click(function(event){
 
@@ -159,7 +141,7 @@ function ajaxNewsDelete(id){
 				$(".error_msg").html('Ошибка удаления');
 				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
 				setTimeout(function() {
-					$('#myModal').modal('hide');
+					$('#modal-delete').modal('hide');
 					$('#modal-save').removeAttr('disabled');
 					$('#modal-close').removeAttr('disabled');
 				}, 3000);
@@ -178,7 +160,7 @@ function ajaxNewsDelete(id){
 				$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
 				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
 				setTimeout(function() {
-					$('#myModal').modal('hide');
+					$('#modal-delete').modal('hide');
 					$('#modal-save').removeAttr('disabled');
 					$('#modal-close').removeAttr('disabled');
 				}, 3000);
@@ -230,13 +212,7 @@ function ajaxUsersRegistration(event){
 
 	var formData = $('form').serialize();
 
-	$('#myModal').modal({backdrop: "static"});
-	$('.modal-dialog').css('margin-top','70px');
-	$('.modal-header').css('background','#449d44');
-	$('.modal-title').html('Завершение регистрации').css('color','#fff');
-	$("#modal-text").html('Этот процесс необратим. Если вы уверены что ввели правильные данные нажмите \"Завершить\"');
-	$("#modal-close").html('Отмена');
-	$("#modal-save").removeClass('btn-primary').addClass('btn-success').html('Завершить');
+	$('#modal-reg').modal({backdrop: "static"});
 
 	$('#modal-save').click(function(event){
 
@@ -256,7 +232,7 @@ function ajaxUsersRegistration(event){
 			 	if (password != passwordAccept) {
 					$('.passwordAccept').removeClass('has-success').addClass('has-error');
 					$('#pass2').after($('#helpBlock2').html('Пароли не совпадают'));
-					$('#myModal').modal('hide');
+					$('#modal-reg').modal('hide');
 					$('#modal-save').removeAttr('disabled');
 					$('#modal-close').removeAttr('disabled');
 					return false;
@@ -264,7 +240,7 @@ function ajaxUsersRegistration(event){
 			 	if (password.length < 8) {
 					$('.password').removeClass('has-success').addClass('has-error');
 					$('#pass1').after($('#helpBlock1').html('Пароль должен содержать не менее 8 символов'));
-					$('#myModal').modal('hide');
+					$('#modal-reg').modal('hide');
 					$('#modal-save').removeAttr('disabled');
 					$('#modal-close').removeAttr('disabled');
 					return false;
@@ -272,7 +248,7 @@ function ajaxUsersRegistration(event){
 				if (password.length > 20) {
 					$('.password').removeClass('has-success').addClass('has-error');
 					$('#pass1').after($('#helpBlock1').html('Пароль должен содержать менее 20 символов'));
-					$('#myModal').modal('hide');
+					$('#modal-reg').modal('hide');
 					$('#modal-save').removeAttr('disabled');
 					$('#modal-close').removeAttr('disabled');
 					return false;
@@ -285,7 +261,7 @@ function ajaxUsersRegistration(event){
 				$(".error_msg").html('Ошибка регистрации');
 				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
 				setTimeout(function() {
-					$('#myModal').modal('hide');
+					$('#modal-reg').modal('hide');
 					$('#modal-save').removeAttr('disabled');
 					$('#modal-close').removeAttr('disabled');
 				}, 3000);
@@ -304,7 +280,7 @@ function ajaxUsersRegistration(event){
 				$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
 				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
 				setTimeout(function() {
-					$('#myModal').modal('hide');
+					$('#modal-reg').modal('hide');
 					$('#modal-save').removeAttr('disabled');
 					$('#modal-close').removeAttr('disabled');
 				}, 3000);
