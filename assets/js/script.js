@@ -211,80 +211,69 @@ function ajaxUsersRegistration(event){
 	console.log('do things...');
 
 	var formData = $('form').serialize();
+	var password  = $('#pass1').val();
+	var passwordAccept = $('#pass2').val();
 
-	$('#modal-reg').modal({backdrop: "static"});
+ 	if (password != passwordAccept) {
+		$('.passwordAccept').removeClass('has-success').addClass('has-error');
+		$('#pass2').after($('#helpBlock2').html('Пароли не совпадают'));
+		return false;
 
-	$('#modal-save').click(function(event){
+	} else if (password.length < 8) {
+		$('.password').removeClass('has-success').addClass('has-error');
+		$('#pass1').after($('#helpBlock1').html('Пароль должен содержать не менее 8 символов'));
+		return false;
 
-		$('#modal-save').attr('disabled', 'true');
-		$('#modal-close').attr('disabled', 'true');
+	} else if (password.length > 20) {
+		$('.password').removeClass('has-success').addClass('has-error');
+		$('#pass1').after($('#helpBlock1').html('Пароль должен содержать менее 20 символов'));
+		return false;
 
-		$.ajax({
-			type: 'post',
-			url: '/users/RegistrationProcess',
-			data: formData,
-			dataType: 'json',
-			beforeSend: function(){
+	} else {
+		$('#modal-reg').modal({backdrop: "static"});
 
-				var password  = $('#pass1').val();
-				var passwordAccept = $('#pass2').val();
+		$('#modal-save').click(function(event){
 
-			 	if (password != passwordAccept) {
-					$('.passwordAccept').removeClass('has-success').addClass('has-error');
-					$('#pass2').after($('#helpBlock2').html('Пароли не совпадают'));
-					$('#modal-reg').modal('hide');
-					$('#modal-save').removeAttr('disabled');
-					$('#modal-close').removeAttr('disabled');
-					return false;
+			$('#modal-save').attr('disabled', 'true');
+			$('#modal-close').attr('disabled', 'true');
+
+			$.ajax({
+				type: 'post',
+				url: '/users/RegistrationProcess',
+				data: formData,
+				dataType: 'json',
+
+				success: function(res){
+
+				if (res.status == 'err') {
+					$(".error_msg").html('Ошибка регистрации');
+					$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
+					setTimeout(function() {
+						$('#modal-reg').modal('hide');
+						$('#modal-save').removeAttr('disabled');
+						$('#modal-close').removeAttr('disabled');
+					}, 3000);
 				}
-			 	if (password.length < 8) {
-					$('.password').removeClass('has-success').addClass('has-error');
-					$('#pass1').after($('#helpBlock1').html('Пароль должен содержать не менее 8 символов'));
-					$('#modal-reg').modal('hide');
-					$('#modal-save').removeAttr('disabled');
-					$('#modal-close').removeAttr('disabled');
-					return false;
-				}
-				if (password.length > 20) {
-					$('.password').removeClass('has-success').addClass('has-error');
-					$('#pass1').after($('#helpBlock1').html('Пароль должен содержать менее 20 символов'));
-					$('#modal-reg').modal('hide');
-					$('#modal-save').removeAttr('disabled');
-					$('#modal-close').removeAttr('disabled');
-					return false;
-				}
+
+				if (res.status == 'ok') {
+					$(".success_msg").html('Успешная регистрация. \n Сейчас будет выполнен переход на главную страницу...');
+					$(".success_box").fadeIn(500).delay(3000).fadeOut(500);
+					setTimeout(function() {
+						window.location.href = "/news/index";
+					}, 4000);
+				}	
 			},
 
-			success: function(res){
-
-			if (res.status == 'err') {
-				$(".error_msg").html('Ошибка регистрации');
-				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
-				setTimeout(function() {
-					$('#modal-reg').modal('hide');
-					$('#modal-save').removeAttr('disabled');
-					$('#modal-close').removeAttr('disabled');
-				}, 3000);
-			}
-
-			if (res.status == 'ok') {
-				$(".success_msg").html('Успешная регистрация. \n Сейчас будет выполнен переход на главную страницу...');
-				$(".success_box").fadeIn(500).delay(3000).fadeOut(500);
-				setTimeout(function() {
-					window.location.href = "/news/index";
-				}, 4000);
-			}	
-		},
-
-			error: function(){
-				$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
-				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
-				setTimeout(function() {
-					$('#modal-reg').modal('hide');
-					$('#modal-save').removeAttr('disabled');
-					$('#modal-close').removeAttr('disabled');
-				}, 3000);
-			},
-		})
-	});
+				error: function(){
+					$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
+					$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
+					setTimeout(function() {
+						$('#modal-reg').modal('hide');
+						$('#modal-save').removeAttr('disabled');
+						$('#modal-close').removeAttr('disabled');
+					}, 3000);
+				},
+			})
+		});
+	}
 }
