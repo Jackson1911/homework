@@ -30,3 +30,20 @@
 	</div>
 	<input class="btn btn-success form-control" type="submit" value="Завершить регистрацию">
 </form>
+
+<div id="modal-reg" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document" style="margin-top: 70px;">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #449d44";>
+        <h4 class="modal-title" style="color: #fff";>Завершщение регистрации</h4>
+      </div>
+      <div class="modal-body">
+        <p id="modal-text">Этот процесс необратим. Если вы уверены что ввели правильные данные нажмите "Завершить"&hellip;</p>
+      </div>
+      <div class="modal-footer">
+        <button id="modal-close" type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+        <button id="modal-save" type="button" class="btn btn-success">Завершить</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

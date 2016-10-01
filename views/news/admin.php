@@ -38,3 +38,21 @@
 	</table>
 	<a class="btn btn-default" href="/news/index"><i class="glyphicon glyphicon-chevron-left"></i> Вернуться на главную</a>
 </div>
+
+<div id="modal-delete" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document" style="margin-top: 70px;">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #d9534f";>
+        <h4 class="modal-title" style="color: #fff";>Удаление новости</h4>
+      </div>
+      <div class="modal-body">
+        <p id="modal-text">Этот процесс необратим. Вы уверены что хотите удалить данную новость?&hellip;</p>
+      </div>
+      <div class="modal-footer">
+        <button id="modal-close" type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+        <button id="modal-save" type="button" class="btn btn-danger">Удалить</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
