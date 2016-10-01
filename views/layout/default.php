@@ -17,7 +17,7 @@
 			</div>
 			<div class="navbar-inner">	
 				<ul class="nav navbar-nav">
-					<li><a href="/news/registration"><span class="glyphicon glyphicon-user"></span> Регистрация</a></li>
+					<li><a href="/users/registration"><span class="glyphicon glyphicon-user"></span> Регистрация</a></li>
 					<li><a href="/news/newsadmin"><span class="glyphicon glyphicon-user"></span> Управление новостями</a></li>
 				</ul>
 			</div>
