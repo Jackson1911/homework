@@ -277,3 +277,48 @@ function ajaxUsersRegistration(event){
 		});
 	}
 }
+
+function ajaxUsersAuthorization(event){
+
+	event.preventDefault();
+
+	var formData = $('form').serialize();
+
+	$.ajax({
+		type: 'post',
+		url: '/users/AuthorizationProcess',
+		data: formData,
+		dataType: 'json',
+
+		beforeSend: function(){
+			$('#block').modal('show');
+		},
+
+		success: function(res){
+
+			if (res.status == 'err') {
+					$(".error_msg").html('Ошибка: такого пользователя не существует');
+					$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
+					setTimeout(function() {
+						$('#block').modal('hide');
+					}, 3000);
+				}
+
+			if (res.status == 'ok') {
+				$(".success_msg").html('Вход был успешно выполнен.');
+				$(".success_box").fadeIn(500).delay(3000).fadeOut(500);
+				setTimeout(function() {
+					window.location.href = "/news/index";
+				}, 4000);
+			}
+		},
+
+		error: function(){
+			$(".error_msg").html('Ошибка: Пользователя с таким логином или паролем не существует');
+					$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
+					setTimeout(function() {
+						$('#block').modal('hide');
+					}, 3000);
+		}
+	});
+}
