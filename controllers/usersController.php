@@ -47,13 +47,19 @@ class usersController extends SystemController
 			echo json_encode(['status' => 'err', 'message' => 'Ошибка']);
 		}
 	}
-
+	
+	/**
+	 * [actionAuthorization - рендер представления формы входа в систему]
+	 */
 	public function actionAuthorization(){
 
 		CView::render('authorization');
 
 	}
-
+	
+	/**
+	 * [actionAuthorizationProcess - процесс аутентификации и авторизации]
+	 */
 	public function actionAuthorizationProcess(){
 
 		$login = $_POST['login'];
