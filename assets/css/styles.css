@@ -35,6 +35,7 @@ body {
 	position: absolute;
 	box-shadow: 0 0 10px rgba(0,0,0,2);
 	display: none;
+	z-index: 1050;
 }
 .error_box{
 	background: #C94040;
@@ -48,7 +49,7 @@ body {
 	position: absolute;
 	box-shadow: 0 0 10px rgba(0,0,0,2);
 	display: none;
-	z-index: 11;
+	z-index: 1050;
 }
 .error_msg, .success_msg{
 	color: white;
