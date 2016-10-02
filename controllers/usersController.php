@@ -47,4 +47,27 @@ class usersController extends SystemController
 			echo json_encode(['status' => 'err', 'message' => 'Ошибка']);
 		}
 	}
+
+	public function actionAuthorization(){
+
+		CView::render('authorization');
+
+	}
+
+	public function actionAuthorizationProcess(){
+
+		$login = $_POST['login'];
+		$password = $_POST['password'];
+
+		$hash = md5($password);
+
+		$model = new Users();
+		$model = $model->findOne(['login' => $login]);
+
+		if ($login == $model->login && $hash == $model->password) {
+			echo json_encode(['status' => 'ok', 'message' => 'Успех.']);
+		} else {
+			echo json_encode(['status' => 'err', 'message' => 'Ошибка']);
+		}
+	}
 }
