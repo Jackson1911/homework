@@ -16,9 +16,12 @@
 				<a class="navbar-brand" href="/news/index"><span class="glyphicon glyphicon-globe"></span> News</a>
 			</div>
 			<div class="navbar-inner">	
-				<ul class="nav navbar-nav">
-					<li><a href="/users/registration"><span class="glyphicon glyphicon-user"></span> Регистрация</a></li>
+				<ul class="nav navbar-nav">	
 					<li><a href="/news/newsadmin"><span class="glyphicon glyphicon-user"></span> Управление новостями</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="/users/authorization"><span class="glyphicon glyphicon-log-in"></span> Войти</a></li>
+					<li><a href="/users/registration"><span class="glyphicon glyphicon-user"></span> Регистрация</a></li>
 				</ul>
 			</div>
 		</div>

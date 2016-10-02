@@ -29,6 +29,7 @@
 		</div>
 	</div>
 	<input class="btn btn-success form-control" type="submit" value="Завершить регистрацию">
+	<span class="help-block">или если вы уже зарегистрированы <a href="/users/authorization">Войти</a></span>
 </form>
 
 <div id="modal-reg" class="modal fade" tabindex="-1" role="dialog">
