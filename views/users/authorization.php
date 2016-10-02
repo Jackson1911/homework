@@ -17,7 +17,7 @@
 		</div>
 	</div>
 	<input class="btn btn-success form-control" type="submit" value="Войти">
-	<span class="help-block">или если вы еще не зарегистрированы: <a href="/users/registration">Регистрация</a></span>
+	<span class="help-block">если вы еще не зарегистрированы: <a href="/users/registration">Регистрация</a></span>
 </form>
 </div>
 
