@@ -278,6 +278,9 @@ function ajaxUsersRegistration(event){
 	}
 }
 
+/**
+* [ajaxUsersAuthorization функция аутентификации и авторизации пользователя]
+*/
 function ajaxUsersAuthorization(event){
 
 	event.preventDefault();
