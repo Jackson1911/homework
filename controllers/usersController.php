@@ -85,7 +85,7 @@ class usersController extends SystemController
 	 */
 	public function actionLogOut(){
 
-		if (session_unset($_SESSION['user_id'])) {
+		if (unset($_SESSION['user_id'])) {
 
 			echo json_encode(['status' => 'ok', 'message' => 'Успех.']);
 
