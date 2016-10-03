@@ -300,12 +300,12 @@ function ajaxUsersAuthorization(event){
 		success: function(res){
 
 			if (res.status == 'err') {
-					$(".error_msg").html('Ошибка: такого пользователя не существует');
-					$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
-					setTimeout(function() {
-						$('#block').modal('hide');
-					}, 3000);
-				}
+				$(".error_msg").html('Ошибка: такого пользователя не существует');
+				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
+				setTimeout(function() {
+					$('#block').modal('hide');
+				}, 3000);
+			}
 
 			if (res.status == 'ok') {
 				$(".success_msg").html('Вход был успешно выполнен.');
@@ -318,10 +318,37 @@ function ajaxUsersAuthorization(event){
 
 		error: function(){
 			$(".error_msg").html('Ошибка: Пользователя с таким логином или паролем не существует');
-					$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
-					setTimeout(function() {
-						$('#block').modal('hide');
-					}, 3000);
+			$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
+			setTimeout(function() {
+				$('#block').modal('hide');
+			}, 3000);
+		}
+	});
+}
+
+/**
+ * [ajaxLogOut - функция выхода из текущей сессии]
+ */
+function ajaxLogOut(){
+	
+	$.ajax({
+
+		url: '/users/LogOut',
+
+		success: function(res){
+
+			if (res.status == 'err') {
+				$(".error_msg").html('Ошибка');
+				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
+			}
+
+			if (res.status == 'ok') {
+				$(".success_msg").html('Выход выполнен');
+				$(".success_box").fadeIn(500).delay(1000).fadeOut(500);
+				setTimeout(function() {
+					window.location.href = "/news/index";
+				}, 2000);
+			}
 		}
 	});
 }
