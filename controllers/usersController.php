@@ -71,7 +71,24 @@ class usersController extends SystemController
 		$model = $model->findOne(['login' => $login]);
 
 		if ($login == $model->login && $hash == $model->password) {
+
+			$_SESSION['user_id'] = $model->id;
 			echo json_encode(['status' => 'ok', 'message' => 'Успех.']);
+
+		} else {
+			echo json_encode(['status' => 'err', 'message' => 'Ошибка']);
+		}
+	}
+
+	/**
+	 * [actionlogOut - выход из текущей сессии]
+	 */
+	public function actionLogOut(){
+
+		if (session_unset($_SESSION['user_id'])) {
+
+			echo json_encode(['status' => 'ok', 'message' => 'Успех.']);
+
 		} else {
 			echo json_encode(['status' => 'err', 'message' => 'Ошибка']);
 		}
