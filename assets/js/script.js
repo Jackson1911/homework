@@ -334,12 +334,20 @@ function ajaxLogOut(){
 	$.ajax({
 
 		url: '/users/LogOut',
+		dataType: 'json',
+
+		beforeSend: function(){
+			$('#block').modal('show');
+		},
 
 		success: function(res){
 
 			if (res.status == 'err') {
 				$(".error_msg").html('Ошибка');
 				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
+				setTimeout(function() {
+					$('#block').modal('hide');
+				}, 3000);
 			}
 
 			if (res.status == 'ok') {
