@@ -117,16 +117,30 @@ class MysqlDAO implements GeneralDAO
 
 		return $this;
 	}
-	
+
 	/**
 	 * @author Jackson1911
-	 * @param  string $columns
+	 * @param  string $fieldName
 	 * @return \packs\PHPDAO\DAObjects\GeneralDAO
 	 * Method for order data by field name
 	 */
 	public function orderBy(string $fieldName):GeneralDAO
 	{
 		$this->query['orderBy'] = $fieldName;
+		return $this;
+	}
+
+	/**
+	 * @author farZa
+	 * @param string $joinTable
+	 * @param string $data
+	 * @return \packs\PHPDAO\DAObjects\GeneralDAO
+	 */
+	public function innerJoin(string $joinTable, string $data):GeneralDAO
+	{
+		$this->query['innerJoin'][] = [
+			$joinTable => $data,
+		];
 
 		return $this;
 	}
@@ -182,8 +196,8 @@ class MysqlDAO implements GeneralDAO
 
 			case 'where' :
 				foreach ($this->query['where'] as $key => $value) {
-					$values[] = $key . ' = :' . $key;
-					$params[':' . $key] = $value;
+					$values[] = $key . ' = :' . str_replace('.', '_', $key);
+					$params[':' . str_replace('.', '_', $key)] = $value;
 				}
 
 				$valueString = implode(' ' . $this->query['sep'] . ' ', $values);
@@ -287,12 +301,19 @@ class MysqlDAO implements GeneralDAO
 
 		$sql = 'SELECT ' . $this->query['select'] . ' FROM ' . $this->query['table'];
 		$params = [];
-		
-		if (isset($this->query['orderBy'])){
 
-			$sql .= ' ORDER BY ' . $this->query['orderBy'];
-
+		if (isset($this->query['innerJoin'])) {
+			foreach ($this->query['innerJoin'] as $data) {
+				foreach ($data as $tableName => $value) {
+					$sql .= ' INNER JOIN ' . $tableName . ' ON '. $value;
+				}
+			}
 		}
+
+		if (isset($this->query['orderBy'])){
+			$sql .= ' ORDER BY ' . $this->query['orderBy'];
+		}
+
 
 		if (isset($this->query['where'])) {
 			$whereResult = $this->generateValues('where');
@@ -331,6 +352,13 @@ class MysqlDAO implements GeneralDAO
 		$sql = 'SELECT ' . $this->query['select'] . ' FROM ' . $this->query['table'];
 		$params = [];
 
+		if (isset($this->query['innerJoin'])) {
+			foreach ($this->query['innerJoin'] as $data) {
+				foreach ($data as $tableName => $value) {
+					$sql .= ' INNER JOIN ' . $tableName . ' ON '. $value;
+				}
+			}
+		}
 
 		if (isset($this->query['where'])) {
 			$whereResult = $this->generateValues('where');
