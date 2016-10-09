@@ -4,6 +4,7 @@ use system\CView;
 use system\SystemController;
 use system\App;
 use models\Users;
+use models\Profiles;
 
 class usersController extends SystemController
 {
@@ -89,6 +90,103 @@ class usersController extends SystemController
 
 		if (empty($_SESSION['user_id'])) {
 
+			echo json_encode(['status' => 'ok', 'message' => 'Успех.']);
+
+		} else {
+			echo json_encode(['status' => 'err', 'message' => 'Ошибка']);
+		}
+	}
+
+	/**
+	 * [actionProfile - рендер представления с информацией о пользователе]
+	 */
+	public function actionProfile(){
+
+		$user_id = $_GET['id'];
+
+		$data = App::$db
+			->select('n.*, a.*')
+			->from('profiles n')
+			->innerJoin('users a', 'a.id = n.user_id')
+			->where(['a.id' => $user_id])
+			->fetchRow();
+
+		CView::render('profile', $data);
+
+
+	}
+
+	/**
+	 * [actionCreateProfile - рендер формы создания нового профиля пользователя]
+	 */
+	public function actionCreateProfile()
+	{
+		CView::render('create');
+	}
+
+	/**
+	 * [actionCreateProfileProcess - создание нового профиля пользователя]
+	 */
+	public function actionCreateProfileProcess(){
+
+		$user_id = $_SESSION['user_id'];
+
+		$user_name = $_POST['user_name'];
+		$user_surname = $_POST['user_surname'];
+		$user_birth_date = $_POST['user_birth_date'];
+
+		$model = new Profiles();
+		$model->user_id = $user_id;
+		$model->name = $user_name;
+		$model->surname = $user_surname;
+		$model->birth_date = $user_birth_date;
+		
+		if ($model->save()) {
+			
+			echo json_encode(['status' => 'ok', 'message' => 'Успех.']);
+
+		} else {
+			echo json_encode(['status' => 'err', 'message' => 'Ошибка']);
+		}
+	}
+
+	/**
+	 * [actionEditProfile - рендер формы редактирования профиля]
+	 */
+	public function actionEditProfile()
+	{
+		$user_id = $_GET['id'];
+
+		$data = App::$db
+			->select('n.*, a.*')
+			->from('profiles n')
+			->innerJoin('users a', 'a.id = n.user_id')
+			->where(['a.id' => $user_id])
+			->fetchRow();
+
+		CView::render('edit', $data);
+	}
+
+	/**
+	 * [actionEditProfileProcess - обновление данных о пользователе]
+	 */
+	public function actionEditProfileProcess(){
+
+		$user_id = $_SESSION['user_id'];
+
+		$user_name = $_POST['user_name'];
+		$user_surname = $_POST['user_surname'];
+		$user_birth_date = $_POST['user_birth_date'];
+
+		$model = new Profiles();
+		$model->user_id = $user_id;
+		$model = $model->findOne(['user_id' => $user_id]);
+		$model->name = $user_name;
+		$model->surname = $user_surname;
+		$model->birth_date = $user_birth_date;
+
+		if ($model->save()) {
+			
 			echo json_encode(['status' => 'ok', 'message' => 'Успех.']);
 
 		} else {

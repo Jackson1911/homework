@@ -329,10 +329,15 @@ class MysqlDAO implements GeneralDAO
 		$stmt->execute($params);
 
 		if (isset($this->query['class'])) {
-			return $stmt->fetchAll(\PDO::FETCH_CLASS, $this->query['class']);
+			$res = $stmt->fetchAll(\PDO::FETCH_CLASS, $this->query['class']);
+			$this->resetDao();
+			return $res;
 		}
 
-		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+		$res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+		$this->resetDao();
+
+		return $res;
 	}
 
 	/**
@@ -375,10 +380,14 @@ class MysqlDAO implements GeneralDAO
 
 		if (isset($this->query['class'])) {
 			$stmt->setFetchMode(\PDO::FETCH_CLASS, $this->query['class']);
-			return $stmt->fetch(\PDO::FETCH_CLASS);
+			$res =  $stmt->fetch(\PDO::FETCH_CLASS);
+			$this->resetDao();
+			return $res;
 		}
 
-		return $stmt->fetch(\PDO::FETCH_ASSOC);
+		$res = $stmt->fetch(\PDO::FETCH_ASSOC);
+		$this->resetDao();
+		return $res;
 	}
 
 	/**

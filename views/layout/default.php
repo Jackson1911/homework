@@ -1,6 +1,7 @@
 <?php
 if (isset($_SESSION['user_id'])) {
 	$model = new \models\Users();
+
 	$user = $model->findOne(['id' => $_SESSION['user_id']]);
 }
 ?>
@@ -31,7 +32,7 @@ if (isset($_SESSION['user_id'])) {
 						<li><a href="/users/authorization"><span class="glyphicon glyphicon-log-in"></span> Войти</a></li>
 						<li><a href="/users/registration"><span class="glyphicon glyphicon-user"></span> Регистрация</a></li>
 					<?php else: ?>
-						<li><a href="#">Привет, <?= $user->login; ?></a></li>
+						<li><a href="/users/profile?id=<?= $_SESSION['user_id']; ?>">Привет, <?= $user->login; ?></a></li>
 						<li><a href="#" onclick="ajaxLogOut()"><span class="glyphicon glyphicon-log-out"></span> Выход</a></li>
 					<?php endif ?>
 				</ul>

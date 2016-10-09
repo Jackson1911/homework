@@ -360,3 +360,85 @@ function ajaxLogOut(){
 		}
 	});
 }
+
+/**
+ * [ajaxCreateProfile - функция создания профиля]
+ */
+function ajaxCreateProfile(event, id){
+
+	event.preventDefault();
+
+	var formData = $('form').serialize();
+
+	$.ajax({
+
+		url: '/users/CreateProfileProcess',
+		type: 'post',
+		data: formData,
+		dataType: 'json',
+
+		beforeSend: function(){
+			$('#block').modal('show');
+		},
+
+		success: function(res){
+
+			if (res.status == 'err') {
+				$(".error_msg").html('Ошибка: создать профиль не удалось');
+				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
+				setTimeout(function() {
+					$('#block').modal('hide');
+				}, 3000);
+			}
+
+			if (res.status == 'ok') {
+				$(".success_msg").html('Ваш профиль успешно создан');
+				$(".success_box").fadeIn(500).delay(1000).fadeOut(500);
+				setTimeout(function() {
+					window.location.href = "/users/profile?id=" + id;
+				}, 2000);
+			}
+		}
+	});
+}
+
+/**
+ * [ajaxEditProfile функция редактирования профиля]
+ */
+function ajaxEditProfile(event, id){
+
+	event.preventDefault();
+
+	var formData = $('form').serialize();
+
+	$.ajax({
+
+		url: '/users/EditProfileProcess',
+		type: 'post',
+		data: formData,
+		dataType: 'json',
+
+		beforeSend: function(){
+			$('#block').modal('show');
+		},
+
+		success: function(res){
+
+			if (res.status == 'err') {
+				$(".error_msg").html('Ошибка: не удалось созранить данные');
+				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
+				setTimeout(function() {
+					$('#block').modal('hide');
+				}, 3000);
+			}
+
+			if (res.status == 'ok') {
+				$(".success_msg").html('Новые данные сохранены');
+				$(".success_box").fadeIn(500).delay(1000).fadeOut(500);
+				setTimeout(function() {
+					window.location.href = "/users/profile?id=" + id;
+				}, 2000);
+			}
+		}
+	});
+}
