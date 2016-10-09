@@ -9,7 +9,7 @@
 		<label>Фамилия: </label><p><?= $data['surname']; ?></p>
 		<label>Дата рождения: </label><p><?= $data['birth_date']; ?></p>
 		<hr>
-		<a class="btn btn-default" href="/users/editProfile?id=1">Редактировать профиль</a><br>
+		<a class="btn btn-default" href="/users/editProfile?id=<?= data['id']; ?>">Редактировать профиль</a><br>
 	</div>
 	<div>
 		
@@ -19,6 +19,6 @@
 		<h3>Ваш профиль:</h3>
 		<hr>
 		<p>Вы еще не заполнили информацию о себе, нажмите "Добавить профиль" и заполните поля.</p>
-		<a class="btn btn-default" href="/users/createProfile?id=1">Добавить профиль</a><br>
+		<a class="btn btn-default" href="/users/createProfile?id=<?= data['id']; ?>">Добавить профиль</a><br>
 	</div>
 <?php endif ?>
