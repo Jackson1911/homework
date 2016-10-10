@@ -129,17 +129,55 @@ class usersController extends SystemController
 	 */
 	public function actionCreateProfileProcess(){
 
+		$data = ($_POST['data']);
+		parse_str($data, $output);
+
 		$user_id = $_SESSION['user_id'];
 
-		$user_name = $_POST['user_name'];
-		$user_surname = $_POST['user_surname'];
-		$user_birth_date = $_POST['user_birth_date'];
+		$user_name = $output['user_name'];
+		$user_surname = $output['user_surname'];
+		$user_birth_date = $output['user_birth_date'];
 
 		$model = new Profiles();
 		$model->user_id = $user_id;
 		$model->name = $user_name;
 		$model->surname = $user_surname;
 		$model->birth_date = $user_birth_date;
+
+		$user = new Users();
+		$user = $user->findOne(['id' => $user_id]);
+
+		//Путь до директории с файлами
+		$uploaddir = __DIR__ . '/../uploads/';
+		//Путь до директории с файлами конкретного пользователя
+		$userDir = $uploaddir . $user->login . '/';
+
+		//Если директории не существует
+		if (!file_exists($userDir)) {
+			//Создать директорию
+			mkdir($userDir);
+		} 
+
+		//Если файл передается
+		if (isset($_FILES[0]['name'])) {
+			$uploadfile = $userDir . basename($_FILES[0]['name']);
+
+			//Очищаем директорию от старых файлов
+			if ($handle = opendir('uploads/' . $user->login . '/')) {
+			    while (false !== ($file = readdir($handle))) { 
+			        if ($file != "." && $file != "..") { 
+			            unlink('uploads/' . $user->login . '/' . $file); 
+			        } 
+			    }
+			    closedir($handle); 
+			}  
+
+			//Перемещаем загруженный файл в директорию
+			move_uploaded_file($_FILES[0]['tmp_name'], $uploadfile);
+
+			//Сохраняем путь до файла в БД
+			$model->photo = '/../../uploads/' . $user->login . '/' . basename($_FILES[0]['name']);
+		}
 		
 		if ($model->save()) {
 			
@@ -172,11 +210,14 @@ class usersController extends SystemController
 	 */
 	public function actionEditProfileProcess(){
 
+		$data = ($_POST['data']);
+		parse_str($data, $output);
+
 		$user_id = $_SESSION['user_id'];
 
-		$user_name = $_POST['user_name'];
-		$user_surname = $_POST['user_surname'];
-		$user_birth_date = $_POST['user_birth_date'];
+		$user_name = $output['user_name'];
+		$user_surname = $output['user_surname'];
+		$user_birth_date = $output['user_birth_date'];
 
 		$model = new Profiles();
 		$model->user_id = $user_id;
@@ -184,6 +225,41 @@ class usersController extends SystemController
 		$model->name = $user_name;
 		$model->surname = $user_surname;
 		$model->birth_date = $user_birth_date;
+
+		$user = new Users();
+		$user = $user->findOne(['id' => $user_id]);
+
+		//Путь до директории с файлами
+		$uploaddir = __DIR__ . '/../uploads/';
+		//Путь до директории с файлами конкретного пользователя
+		$userDir = $uploaddir . $user->login . '/';
+
+		//Если директории не существует
+		if (!file_exists($userDir)) {
+			//Создать директорию
+			mkdir($userDir);
+		} 
+
+		//Если файл передается
+		if (isset($_FILES[0]['name'])) {
+			$uploadfile = $userDir . basename($_FILES[0]['name']);
+
+			//Очищаем директорию от старых файлов
+			if ($handle = opendir('uploads/' . $user->login . '/')) {
+			    while (false !== ($file = readdir($handle))) { 
+			        if ($file != "." && $file != "..") { 
+			            unlink('uploads/' . $user->login . '/' . $file); 
+			        } 
+			    }
+			    closedir($handle); 
+			}  
+
+			//Перемещаем загруженный файл в директорию
+			move_uploaded_file($_FILES[0]['tmp_name'], $uploadfile);
+
+			//Сохраняем путь до файла в БД
+			$model->photo = '/../../uploads/' . $user->login . '/' . basename($_FILES[0]['name']);
+		}
 
 		if ($model->save()) {
 			

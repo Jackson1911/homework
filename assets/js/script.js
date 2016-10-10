@@ -294,7 +294,7 @@ function ajaxUsersAuthorization(event){
 		dataType: 'json',
 
 		beforeSend: function(){
-			$('#block').modal('show');
+			$('#block').modal({backdrop: "static"});
 		},
 
 		success: function(res){
@@ -337,7 +337,7 @@ function ajaxLogOut(){
 		dataType: 'json',
 
 		beforeSend: function(){
-			$('#block').modal('show');
+			$('#block').modal({backdrop: "static"});
 		},
 
 		success: function(res){
@@ -368,17 +368,26 @@ function ajaxCreateProfile(event, id){
 
 	event.preventDefault();
 
+	var files = $('input[name = "user_photo"]')[0].files;
+	var fData = new FormData();
+	$.each(files, function (index, file){
+		fData.append(index, file);
+	});
+
 	var formData = $('form').serialize();
+	fData.append('data', formData);
 
 	$.ajax({
 
 		url: '/users/CreateProfileProcess',
 		type: 'post',
-		data: formData,
+		data: fData,
 		dataType: 'json',
+		processData: false,
+		contentType: false,
 
 		beforeSend: function(){
-			$('#block').modal('show');
+			$('#block').modal({backdrop: "static"});
 		},
 
 		success: function(res){
@@ -409,17 +418,26 @@ function ajaxEditProfile(event, id){
 
 	event.preventDefault();
 
+	var files = $('input[name = "user_photo"]')[0].files;
+	var fData = new FormData();
+	$.each(files, function (index, file){
+		fData.append(index, file);
+	});
+
 	var formData = $('form').serialize();
+	fData.append('data', formData);
 
 	$.ajax({
 
 		url: '/users/EditProfileProcess',
 		type: 'post',
-		data: formData,
+		data: fData,
 		dataType: 'json',
+		processData: false,
+		contentType: false,
 
 		beforeSend: function(){
-			$('#block').modal('show');
+			$('#block').modal({backdrop: "static"});
 		},
 
 		success: function(res){

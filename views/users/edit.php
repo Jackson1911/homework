@@ -4,7 +4,7 @@
 		<hr>
 		<div class="form-group">
 			<label>Имя:</label>
-			<input class="form-control" type="text" name="user_name" value="<?= $data['name']; ?>">
+			<input id="name" class="form-control" type="text" name="user_name" value="<?= $data['name']; ?>">
 		</div>
 		<div class="form-group">
 			<label>Фамилия:</label>
