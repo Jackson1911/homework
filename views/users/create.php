@@ -1,5 +1,5 @@
 <div class="col-md-6 col-md-offset-3">
-	<form enctype="multipart/form-data" class="forms" role="form" onsubmit="ajaxCreateProfile(event, <?= $_SESSION['user_id']; ?>)">
+	<form class="forms" role="form" onsubmit="ajaxCreateProfile(event, <?= $_SESSION['user_id']; ?>)">
 		<h3>Создание профиля</h3>
 		<hr>
 		<div class="form-group">
