@@ -125,7 +125,7 @@ class usersController extends SystemController
 	 */
 	public function actionCreateProfileProcess()
 	{
-		$data = ($_POST['data']);
+		$data = $_POST['data'];
 		parse_str($data, $output);
 
 		$user_id = $_SESSION['user_id'];
@@ -206,7 +206,7 @@ class usersController extends SystemController
 	 */
 	public function actionEditProfileProcess()
 	{
-		$data = ($_POST['data']);
+		$data = $_POST['data'];
 		parse_str($data, $output);
 
 		$user_id = $_SESSION['user_id'];
