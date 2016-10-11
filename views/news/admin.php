@@ -1,3 +1,7 @@
+<?php 
+use classes\SysUser;
+?>
+
 <div class="admin-panel">
 	<h3>Управление новостями</h3>
 	<hr>
@@ -23,16 +27,18 @@
 					<i class="glyphicon glyphicon-eye-open"></i>
 				</a>
 			</td>
-			<td width="1">
+			<?php if (SysUser::getRole() == 'admin'): ?>
+				<td width="1">
 				<a title="Редактировать" class="btn btn-warning btn-xs" href="/news/update?id=<?= $value->id; ?>">
 					<i class="glyphicon glyphicon-pencil"></i>
 				</a>
-			</td>
-			<td width="1">
-				<a title="Удалить" class="btn btn-danger btn-xs" onclick="ajaxNewsDelete(<?= $value->id; ?>)">
-					<i class="glyphicon glyphicon-remove"></i>
-				</a>
-			</td>
+				</td>
+				<td width="1">
+					<a title="Удалить" class="btn btn-danger btn-xs" onclick="ajaxNewsDelete(<?= $value->id; ?>)">
+						<i class="glyphicon glyphicon-remove"></i>
+					</a>
+				</td>
+			<?php endif ?>
 		</tr>
 	<?php endforeach ?>	
 	</table>

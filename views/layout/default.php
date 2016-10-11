@@ -1,4 +1,6 @@
 <?php
+use classes\SysUser;
+
 if (isset($_SESSION['user_id'])) {
 	$model = new \models\Users();
 
@@ -24,9 +26,11 @@ if (isset($_SESSION['user_id'])) {
 				<a class="navbar-brand" href="/news/index"><span class="glyphicon glyphicon-globe"></span> News</a>
 			</div>
 			<div class="navbar-inner">	
+			<?php if (SysUser::getRole() == 'admin'): ?>
 				<ul class="nav navbar-nav">	
 					<li><a href="/news/newsadmin"><span class="glyphicon glyphicon-user"></span> Управление новостями</a></li>
 				</ul>
+			<?php endif ?>
 				<ul class="nav navbar-nav navbar-right">
 					<?php if (empty($_SESSION['user_id'])) : ?>
 						<li><a href="/users/authorization"><span class="glyphicon glyphicon-log-in"></span> Войти</a></li>

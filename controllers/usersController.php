@@ -11,17 +11,16 @@ class usersController extends SystemController
 	/**
 	 * [actionRegistration - рендер представления регистрации нового пользователя]
 	 */
-	public function actionRegistration(){
-
+	public function actionRegistration()
+	{
 		CView::render('registration');
-
 	}
 
 	/**
 	 * [actionRegistrationProcess - добавление данных с формы в БД]
 	 */
-	public function actionRegistrationProcess(){
-
+	public function actionRegistrationProcess()
+	{
 		//Создание коротких переменных
 		$login = $_POST['login'];
 		$password = $_POST['pass1'];
@@ -52,17 +51,16 @@ class usersController extends SystemController
 	/**
 	 * [actionAuthorization - рендер представления формы входа в систему]
 	 */
-	public function actionAuthorization(){
-
+	public function actionAuthorization()
+	{
 		CView::render('authorization');
-
 	}
 	
 	/**
 	 * [actionAuthorizationProcess - процесс аутентификации и авторизации]
 	 */
-	public function actionAuthorizationProcess(){
-
+	public function actionAuthorizationProcess()
+	{
 		$login = $_POST['login'];
 		$password = $_POST['password'];
 
@@ -84,8 +82,8 @@ class usersController extends SystemController
 	/**
 	 * [actionlogOut - выход из текущей сессии]
 	 */
-	public function actionLogOut(){
-
+	public function actionLogOut()
+	{
 		unset($_SESSION['user_id']);
 
 		if (empty($_SESSION['user_id'])) {
@@ -100,8 +98,8 @@ class usersController extends SystemController
 	/**
 	 * [actionProfile - рендер представления с информацией о пользователе]
 	 */
-	public function actionProfile(){
-
+	public function actionProfile()
+	{
 		$user_id = $_GET['id'];
 
 		$data = App::$db
@@ -112,8 +110,6 @@ class usersController extends SystemController
 			->fetchRow();
 
 		CView::render('profile', $data);
-
-
 	}
 
 	/**
@@ -127,8 +123,8 @@ class usersController extends SystemController
 	/**
 	 * [actionCreateProfileProcess - создание нового профиля пользователя]
 	 */
-	public function actionCreateProfileProcess(){
-
+	public function actionCreateProfileProcess()
+	{
 		$data = ($_POST['data']);
 		parse_str($data, $output);
 
@@ -208,8 +204,8 @@ class usersController extends SystemController
 	/**
 	 * [actionEditProfileProcess - обновление данных о пользователе]
 	 */
-	public function actionEditProfileProcess(){
-
+	public function actionEditProfileProcess()
+	{
 		$data = ($_POST['data']);
 		parse_str($data, $output);
 

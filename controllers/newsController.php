@@ -4,6 +4,7 @@ use system\CView;
 use system\SystemController;
 use system\App;
 use models\News;
+use classes\SysUser;
 
 class newsController extends SystemController
 {
@@ -52,6 +53,15 @@ class newsController extends SystemController
 	 */
 	public function actionCreate()
 	{
+		//Проверяем роль пользователя
+		$role = SysUser::getRole();
+		//Если роль не admin	
+		if ($role !== 'admin') {
+			//Выбрасываем исключение
+			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
+			die();	
+		}
+
 		CView::render('create');
 	}
 
@@ -63,6 +73,15 @@ class newsController extends SystemController
 	 */
 	public function actionAjaxCreate()
 	{
+		//Проверяем роль пользователя
+		$role = SysUser::getRole();
+		//Если роль не admin	
+		if ($role !== 'admin') {
+			//Выбрасываем исключение
+			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
+			die();	
+		}
+
 		//Создание коротких переменных для данных из POST
 		$title = $_POST['name'];
 		$date = $_POST['date'];
@@ -90,7 +109,17 @@ class newsController extends SystemController
 	 * [actionUpdate Отображает форму редактирования, делает выборку из БД и заполняет поля]
 	 * @var $id - получает GET параметр id новости
 	 */
-	public function actionUpdate(){
+	public function actionUpdate()
+	{
+		//Проверяем роль пользователя
+		$role = SysUser::getRole();
+		//Если роль не admin	
+		if ($role !== 'admin') {
+			//Выбрасываем исключение
+			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
+			die();	
+		}
+
 		//Получаем GET параметр id
 		$id = $_GET['id'];
 		//Запрос к БД
@@ -113,7 +142,17 @@ class newsController extends SystemController
 	 * @var $id - получает GET параметр id новости
 	 * 
 	 */
-	public function actionAjaxUpdate(){
+	public function actionAjaxUpdate()
+	{
+		//Проверяем роль пользователя
+		$role = SysUser::getRole();
+		//Если роль не admin	
+		if ($role !== 'admin') {
+			//Выбрасываем исключение
+			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
+			die();	
+		}
+
 		$id = $_GET['id'];
 
 		//Создание коротких перемнных
@@ -139,7 +178,8 @@ class newsController extends SystemController
 	/**
 	 * [actionView - отображает отдельную новсть]
 	 */
-	public function actionView(){
+	public function actionView()
+	{
 		//Создание короткой переменной
 		$id = $_GET['id'];
 
@@ -155,7 +195,17 @@ class newsController extends SystemController
 	/**
 	 * [actionAjaxDelete - Удаляет новость по ее id]
 	 */
-	public function actionAjaxDelete(){
+	public function actionAjaxDelete()
+	{
+		//Проверяем роль пользователя
+		$role = SysUser::getRole();
+		//Если роль не admin	
+		if ($role !== 'admin') {
+			//Выбрасываем исключение
+			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
+			die();	
+		}
+
 		//Создение короткой переменной
 		$id = $_GET['id'];
 
@@ -179,7 +229,17 @@ class newsController extends SystemController
 	 * Редактировать
 	 * Удалить]
 	 */
-	public function actionNewsAdmin(){
+	public function actionNewsAdmin()
+	{
+		//Проверяем роль пользователя
+		$role = SysUser::getRole();
+		//Если роль не admin	
+		if ($role !== 'admin') {
+			//Выбрасываем исключение
+			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
+			die();	
+		}
+
 		//Запрос к БД
 		$model = new News();
 		$data = $model->findAll();
@@ -189,6 +249,6 @@ class newsController extends SystemController
 
 		} else {
 			CView::render('admin', $data);
-		}		
-	}
+		}
+	}	
 }
