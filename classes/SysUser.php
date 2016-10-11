@@ -7,7 +7,7 @@ class SysUser
 {
 	/**
 	 * [getRole - Возвращает роль текущего пользователя]
-	 * @return [string]
+	 * @return string
 	 */
 	public static function getRole()
 	{
@@ -23,15 +23,12 @@ class SysUser
 
 			return $roles->role;
 
-		} else {
-
-			return false;
 		}	
 	}
 
 	/**
 	 * [getUserId - возвращает id текущего пользователя]
-	 * @return [int]
+	 * @return int
 	 */
 	public static function getUserId()
 	{
@@ -44,9 +41,6 @@ class SysUser
 
 			return $user->id;
 
-		} else {
-
-			return false;
 		}	
 	}
 }
