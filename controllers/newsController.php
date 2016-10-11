@@ -59,7 +59,6 @@ class newsController extends SystemController
 		if ($role !== 'admin') {
 			//Выбрасываем исключение
 			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
-			die();	
 		}
 
 		CView::render('create');
@@ -79,7 +78,6 @@ class newsController extends SystemController
 		if ($role !== 'admin') {
 			//Выбрасываем исключение
 			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
-			die();	
 		}
 
 		//Создание коротких переменных для данных из POST
@@ -117,7 +115,6 @@ class newsController extends SystemController
 		if ($role !== 'admin') {
 			//Выбрасываем исключение
 			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
-			die();	
 		}
 
 		//Получаем GET параметр id
@@ -150,7 +147,6 @@ class newsController extends SystemController
 		if ($role !== 'admin') {
 			//Выбрасываем исключение
 			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
-			die();	
 		}
 
 		$id = $_GET['id'];
@@ -203,7 +199,6 @@ class newsController extends SystemController
 		if ($role !== 'admin') {
 			//Выбрасываем исключение
 			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
-			die();	
 		}
 
 		//Создение короткой переменной
@@ -237,7 +232,6 @@ class newsController extends SystemController
 		if ($role !== 'admin') {
 			//Выбрасываем исключение
 			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
-			die();	
 		}
 
 		//Запрос к БД
