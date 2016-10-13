@@ -27,11 +27,11 @@ use classes\SysUser;
 <div style="margin-bottom: 80px; padding: 20px;" class="news-view">
 <h3>Комментарии:</h3>
 <hr>
-<?php if (empty($else_data)): ?>
+<?php if (empty($more_data)): ?>
 	<p>Эту новость еще никто не прокомментировал...</p><br>
 	<p>Вы можете быть первым!</p>
 <?php else : ?>
-	<?php foreach ($else_data as $value): ?>
+	<?php foreach ($more_data as $value): ?>
 	<div class="comment" style="margin-bottom: 5px; padding: 0 0 0 20px">
 		<div class="user_name">
 			<b><?= $value['login']; ?></b>
