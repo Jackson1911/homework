@@ -22,7 +22,6 @@
         <button id="modal-close" type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
         <button id="modal-save" type="button" class="btn btn-success">Сохранить</button>
       </div>
-    </div><!-- /.modal-content
-  </div><!-- /.modal-dialog
-</div><!-- /.modal
- --> --> -->
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
