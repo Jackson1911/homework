@@ -5,7 +5,7 @@ use system\SystemController;
 
 class CViewComm extends CView
 {
-	public static function render($path, $data = [], $else_data = [])
+	public static function render($path, $data = [], $more_data = [])
 	{
 		$fullPath = __DIR__ . '/../views/' . App::$currentController . '/' . $path . '.php';
 
