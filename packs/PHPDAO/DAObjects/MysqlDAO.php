@@ -145,6 +145,25 @@ class MysqlDAO implements GeneralDAO
 		return $this;
 	}
 
+	public function leftJoin(string $joinTable, string $data):GeneralDAO
+	{
+		$this->query['leftJoin'][] = [
+			$joinTable => $data,
+		];
+
+		return $this;
+	}
+
+	public function rightJoin(string $joinTable, string $data):GeneralDAO
+	{
+		$this->query['rightJoin'][] = [
+			$joinTable => $data,
+		];
+
+		return $this;
+	}
+
+
 	/**
 	 * @author farZa
 	 * @param string $type
@@ -310,6 +329,22 @@ class MysqlDAO implements GeneralDAO
 			}
 		}
 
+		if (isset($this->query['leftJoin'])) {
+			foreach ($this->query['leftJoin'] as $data) {
+				foreach ($data as $tableName => $value) {
+					$sql .= ' LEFT OUTER JOIN ' . $tableName . ' ON '. $value;
+				}
+			}
+		}
+
+		if (isset($this->query['rightJoin'])) {
+			foreach ($this->query['rightJoin'] as $data) {
+				foreach ($data as $tableName => $value) {
+					$sql .= ' RIGHT OUTER JOIN ' . $tableName . ' ON '. $value;
+				}
+			}
+		}
+
 		if (isset($this->query['orderBy'])){
 			$sql .= ' ORDER BY ' . $this->query['orderBy'];
 		}
@@ -361,6 +396,22 @@ class MysqlDAO implements GeneralDAO
 			foreach ($this->query['innerJoin'] as $data) {
 				foreach ($data as $tableName => $value) {
 					$sql .= ' INNER JOIN ' . $tableName . ' ON '. $value;
+				}
+			}
+		}
+
+		if (isset($this->query['leftJoin'])) {
+			foreach ($this->query['leftJoin'] as $data) {
+				foreach ($data as $tableName => $value) {
+					$sql .= ' LEFT OUTER JOIN ' . $tableName . ' ON '. $value;
+				}
+			}
+		}
+
+		if (isset($this->query['rightJoin'])) {
+			foreach ($this->query['rightJoin'] as $data) {
+				foreach ($data as $tableName => $value) {
+					$sql .= ' RIGHT OUTER JOIN ' . $tableName . ' ON '. $value;
 				}
 			}
 		}
