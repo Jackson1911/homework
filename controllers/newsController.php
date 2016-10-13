@@ -1,7 +1,6 @@
 <?php
 namespace controllers;
 use system\CView;
-use system\CViewComm;
 use system\SystemController;
 use system\App;
 use models\News;
@@ -197,7 +196,7 @@ class newsController extends SystemController
 			->fetchAll();
 		
 		//Рендерим представление с полученными данными
-		CViewComm::render('view', $data, $comments);
+		CView::render('view', ['data1' => $data, 'data2' => $comments]);
 
 	}
 
