@@ -13,7 +13,7 @@
   <div class="modal-dialog" role="document" style="margin-top: 70px;">
     <div class="modal-content">
       <div class="modal-header" style="background-color: #449d44";>
-        <h4 class="modal-title" style="color: #fff";>Редактирование новости</h4>
+        <h4 class="modal-title" style="color: #fff";>Редактирование комментария</h4>
       </div>
       <div class="modal-body">
         <p id="modal-text">Этот процесс необратим. Вы уверены что хотите сохранить изменения?&hellip;</p>
