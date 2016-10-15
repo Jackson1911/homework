@@ -2,6 +2,7 @@
 namespace classes;
 use models\Users;
 use models\Roles;
+use system\App;
 
 class SysUser
 {
@@ -40,7 +41,28 @@ class SysUser
 			$user = $user->findOne(['id' => $currentUserId]);
 
 			return $user->id;
-
 		}	
+	}
+
+	/**
+	 * [checkProfile - проверка существования профиля пользователя]
+	 * @return bool
+	 */
+	public static function checkProfile()
+	{
+		if (isset($_SESSION['user_id'])) {
+			
+			$user_id = self::getUserId();
+
+			$profile = App::$db
+				->select('id')
+				->from('profiles')
+				->where(['user_id' => $user_id])
+				->fetchRow();
+
+			if (!empty($profile)) {
+				return true;
+			}
+		}
 	}
 }

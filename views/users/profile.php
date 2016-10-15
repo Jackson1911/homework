@@ -1,6 +1,6 @@
 <?php if ($data == true): ?>
 	<div class="view col-md-7 col-md-offset-2">
-		<h3>Ваш профиль:</h3>
+		<h3>Профиль:</h3>
 		<hr>
 
 		<?php if (empty($data['photo'])): ?>
@@ -22,13 +22,19 @@
 			<label>Дата рождения: </label><p><?= $data['birth_date']; ?></p>
 		<?php endif ?>		
 		<hr>
-		<a class="btn btn-default" href="/users/editProfile?id=<?= $data['id']; ?>">Редактировать профиль</a><br>
+		<?php if ($_GET['id'] == $_SESSION['user_id']): ?>
+			<a class="btn btn-default" href="/users/editProfile?id=<?= $data['id']; ?>">Редактировать профиль</a><br>
+		<?php endif ?>
 	</div>
 <?php else : ?>
 	<div class="view col-md-7 col-md-offset-2">
-		<h3>Ваш профиль:</h3>
+		<h3>Профиль:</h3>
 		<hr>
-		<p>Вы еще не заполнили информацию о себе, нажмите "Добавить профиль" и заполните поля.</p>
-		<a class="btn btn-default" href="/users/createProfile?id=<?= $data['id']; ?>">Добавить профиль</a><br>
-	</div>
+		<?php if ($_GET['id'] == $_SESSION['user_id']): ?>
+			<p>Вы еще не заполнили информацию о себе, нажмите "Добавить профиль" и заполните поля.</p>
+			<a class="btn btn-default" href="/users/createProfile?id=<?= $data['id']; ?>">Добавить профиль</a><br>
+		<?php else : ?>
+			<p>Пользователь <b><?= $data['login']; ?></b> еще не заполнил информацию о себе.</p>
+		<?php endif ?>	
+	</div>	
 <?php endif ?>

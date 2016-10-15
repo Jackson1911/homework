@@ -62,6 +62,10 @@ class newsController extends SystemController
 		//Если роль не admin	
 		if ($role !== 'admin') {
 			//Выбрасываем исключение
+			
+			/**
+			 * @throws \classes\EPermissionException
+			 */
 			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
 		}
 
@@ -81,6 +85,10 @@ class newsController extends SystemController
 		//Если роль не admin	
 		if ($role !== 'admin') {
 			//Выбрасываем исключение
+			
+			/**
+			 * @throws \classes\EPermissionException
+			 */
 			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
 		}
 
@@ -118,6 +126,10 @@ class newsController extends SystemController
 		//Если роль не admin	
 		if ($role !== 'admin') {
 			//Выбрасываем исключение
+			
+			/**
+			 * @throws \classes\EPermissionException
+			 */
 			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
 		}
 
@@ -150,6 +162,10 @@ class newsController extends SystemController
 		//Если роль не admin	
 		if ($role !== 'admin') {
 			//Выбрасываем исключение
+			
+			/**
+			 * @throws \classes\EPermissionException
+			 */
 			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
 		}
 
@@ -189,12 +205,13 @@ class newsController extends SystemController
 		$data = $model->findOne(['id' => $id]);
 
 		$comments = App::$db
-			->select('n.*, a.*')
-			->from('users n')
-			->innerJoin('news_comments a', 'a.user_id = n.id')
-			->where(['a.news_id' => $id])
+			->select('n.*, n.id as comments_id, a.*, p.*')
+			->from('news_comments n')
+			->innerJoin('users a', 'a.id = n.user_id')
+			->innerJoin('profiles p', 'p.user_id = n.user_id')
+			->where(['n.news_id' => $id])
 			->fetchAll();
-		
+
 		//Рендерим представление с полученными данными
 		CView::render('view', ['data1' => $data, 'data2' => $comments]);
 
@@ -207,19 +224,19 @@ class newsController extends SystemController
 	{
 		$news_id = $_GET['id'];
 
-		$user_id = SysUser::getUserId();
+		$userId = SysUser::getUserId();
 
 		$model = new News();
 		$data = $model->findOne(['id' => $news_id]);
 
-		$comment_date = date('Y-m-d');
-		$comment_content = $_POST['content'];
+		$commentDate = date('Y-m-d');
+		$commentContent = $_POST['content'];
 
 		$comment = new NewsComments();
-		$comment->comm_content = $comment_content;
-		$comment->date_create = $comment_date;
+		$comment->comm_content = $commentContent;
+		$comment->date_create = $commentDate;
 		$comment->news_id = $data->id;
-		$comment->user_id = $user_id;
+		$comment->user_id = $userId;
 
 		if ($comment->save()) {
 			echo json_encode(['status' => 'ok', 'message' => 'Комментарий добавлен']);
@@ -238,6 +255,10 @@ class newsController extends SystemController
 		//Если роль не admin	
 		if ($role !== 'admin') {
 			//Выбрасываем исключение
+			
+			/**
+			 * @throws \classes\EPermissionException
+			 */
 			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
 		}
 
@@ -261,6 +282,10 @@ class newsController extends SystemController
 		//Если роль не admin	
 		if ($role !== 'admin') {
 			//Выбрасываем исключение
+			
+			/**
+			 * @throws \classes\EPermissionException
+			 */
 			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
 		}
 
@@ -291,6 +316,10 @@ class newsController extends SystemController
 		//Если роль не admin	
 		if ($role !== 'admin') {
 			//Выбрасываем исключение
+			
+			/**
+			 * @throws \classes\EPermissionException
+			 */
 			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
 		}
 
@@ -318,6 +347,10 @@ class newsController extends SystemController
 		//Если роль не admin	
 		if ($role !== 'admin') {
 			//Выбрасываем исключение
+			
+			/**
+			 * @throws \classes\EPermissionException
+			 */
 			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
 		}
 
@@ -350,6 +383,10 @@ class newsController extends SystemController
 		//Если роль не admin	
 		if ($role !== 'admin') {
 			//Выбрасываем исключение
+			
+			/**
+			 * @throws \classes\EPermissionException
+			 */
 			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
 		}
 

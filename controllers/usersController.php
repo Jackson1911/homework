@@ -173,6 +173,8 @@ class usersController extends SystemController
 
 			//Сохраняем путь до файла в БД
 			$model->photo = '/../../uploads/' . $user->login . '/' . basename($_FILES[0]['name']);
+		} else {
+			$model->photo = '/../../uploads/avatar.jpg';
 		}
 		
 		if ($model->save()) {
@@ -255,6 +257,8 @@ class usersController extends SystemController
 
 			//Сохраняем путь до файла в БД
 			$model->photo = '/../../uploads/' . $user->login . '/' . basename($_FILES[0]['name']);
+		} else {
+			$model->photo = '/../../uploads/avatar.jpg';
 		}
 
 		if ($model->save()) {
