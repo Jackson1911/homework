@@ -172,9 +172,9 @@ class usersController extends SystemController
 			move_uploaded_file($_FILES[0]['tmp_name'], $uploadfile);
 
 			//Сохраняем путь до файла в БД
-			$model->photo = '/../../uploads/' . $user->login . '/' . basename($_FILES[0]['name']);
+			$model->photo = '/uploads/' . $user->login . '/' . basename($_FILES[0]['name']);
 		} else {
-			$model->photo = '/../../uploads/avatar.jpg';
+			$model->photo = '/uploads/avatar.jpg';
 		}
 		
 		if ($model->save()) {

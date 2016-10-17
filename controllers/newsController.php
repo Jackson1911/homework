@@ -9,6 +9,7 @@ use models\Users;
 use models\Profiles;
 use models\Roles;
 use models\NewsComments;
+use models\NewsCategories;
 
 class newsController extends SystemController
 {
@@ -69,7 +70,10 @@ class newsController extends SystemController
 			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
 		}
 
-		CView::render('create');
+		$category = new NewsCategories;
+		$data = $category->findAll();
+
+		CView::render('create', $data);
 	}
 
 	/**
@@ -96,6 +100,7 @@ class newsController extends SystemController
 		$title = $_POST['name'];
 		$date = $_POST['date'];
 		$content = $_POST['content'];
+		$categoryId = $_POST['select_category'];
 
 		//Проверяем заполненность полей.
 		if (empty($title) || empty($date) || empty($content)) {
@@ -107,6 +112,7 @@ class newsController extends SystemController
 		$model->title = $title;
 		$model->date = $date;
 		$model->content = $content;
+		$model->category_id = $categoryId;
 
 		if ($model->save()) {
 			echo json_encode(['status' => 'ok', 'message' => 'Успех.']);
@@ -140,13 +146,19 @@ class newsController extends SystemController
 		$model = new News();
 		$data = $model->findOne(['id' => $id]);
 
+		$category = new NewsCategories;
+		$category = $category->findAll();
+
+		$categories = new NewsCategories;
+		$categories = $categories->findAll();
+
 		/**
 		 * Вызываем метод render() класса CView
 		 * Рендерим представление
 		 * В качестве параметров задаем имя вызываемого представления - 'update'
 		 * и данные выбранные в БД - $data
 		 */
-		CView::render('update', $data);
+		CView::render('update', ['data' => $data, 'category' => $category, 'categories' => $categories]);
 
 	}
 
@@ -175,6 +187,7 @@ class newsController extends SystemController
 		$title = $_POST['title'];
 		$date = $_POST['date'];
 		$content = $_POST['content'];
+		$categoryId = $_POST['select_category'];
 
 		//Запрос к БД
 		$model = new News();
@@ -182,6 +195,7 @@ class newsController extends SystemController
 		$model->title = $title;
 		$model->date = $date;
 		$model->content = $content;
+		$model->category_id = $categoryId;
 
 		if ($model->save()) {
 			echo json_encode(['status' => 'ok', 'message' => 'Успех.']);
@@ -204,6 +218,9 @@ class newsController extends SystemController
 		$model = new News();
 		$data = $model->findOne(['id' => $id]);
 
+		$category = new NewsCategories;
+		$category = $category->findOne(['id' => $data->category_id]);
+
 		$comments = App::$db
 			->select('n.*, n.id as comments_id, a.*, p.*')
 			->from('news_comments n')
@@ -213,7 +230,7 @@ class newsController extends SystemController
 			->fetchAll();
 
 		//Рендерим представление с полученными данными
-		CView::render('view', ['data1' => $data, 'data2' => $comments]);
+		CView::render('view', ['news' => $data, 'category' => $category, 'comments' => $comments]);
 
 	}
 
@@ -391,14 +408,127 @@ class newsController extends SystemController
 		}
 
 		//Запрос к БД
-		$model = new News();
-		$data = $model->findAll();
+		$data = App::$db
+			->select('n.*, n.id as news_id, a.*')
+			->from('news n')
+			->innerJoin('news_categories a', 'a.id = n.category_id')
+			->fetchAll();
 
 		if (empty($data)) {
 			CView::render('admin');
 
 		} else {
 			CView::render('admin', $data);
+		}
+	}
+
+	/**
+	 * [actionCategories - рендер формы управления категориями]
+	 */
+	public function actionCategories()
+	{
+		//Проверяем роль пользователя
+		$role = SysUser::getRole();
+		//Если роль не admin	
+		if ($role !== 'admin') {
+			//Выбрасываем исключение
+			
+			/**
+			 * @throws \classes\EPermissionException
+			 */
+			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
+		}
+
+		$categories = new NewsCategories;
+		$data = $categories->findAll();
+
+		CView::render('categories', $data);
+	}
+
+	/**
+	 * [actionCategoriesCreate - создание новой и категории и добавление ее в БД]
+	 */
+	public function actionCategoriesCreate()
+	{
+		//Проверяем роль пользователя
+		$role = SysUser::getRole();
+		//Если роль не admin	
+		if ($role !== 'admin') {
+			//Выбрасываем исключение
+			
+			/**
+			 * @throws \classes\EPermissionException
+			 */
+			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
+		}
+
+		$name = $_POST['category_name'];
+
+		$category = new NewsCategories;
+		$category->name = $name;
+
+		if ($category->save()) {
+			echo json_encode(['status' => 'ok', 'message' => 'Успех.']);
+		} else {
+			echo json_encode(['status' => 'err', 'message' => 'Ошибка']);
+		}
+	}
+
+	/**
+	 * [actionCategoriesUpdate - обновление категории]
+	 */
+	public function actionCategoriesUpdate()
+	{
+		//Проверяем роль пользователя
+		$role = SysUser::getRole();
+		//Если роль не admin	
+		if ($role !== 'admin') {
+			//Выбрасываем исключение
+			
+			/**
+			 * @throws \classes\EPermissionException
+			 */
+			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
+		}
+
+		$id = $_GET['id'];
+
+		$name = $_POST['category_name'];
+
+		$category = new NewsCategories;
+		$category = $category->findOne(['id' => $id]);
+		$category->name = $name;
+
+		if ($category->save()) {
+			echo json_encode(['status' => 'ok', 'message' => 'Успех.']);
+		} else {
+			echo json_encode(['status' => 'err', 'message' => 'Ошибка']);
+		}
+	}
+
+	public function actionCategoriesDelete()
+	{
+		//Проверяем роль пользователя
+		$role = SysUser::getRole();
+		//Если роль не admin	
+		if ($role !== 'admin') {
+			//Выбрасываем исключение
+			
+			/**
+			 * @throws \classes\EPermissionException
+			 */
+			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
+		}
+		
+		$id = $_GET['id'];
+
+		$category = new NewsCategories;
+		$category = $category->findOne(['id' => $id]);
+
+		if ($category->remove()) {
+			echo json_encode(['status' => 'ok', 'message' => 'Успех.']);
+		} else {
+			echo json_encode(['status' => 'err', 'message' => 'Ошибка']);
 		}
 	}	
 }

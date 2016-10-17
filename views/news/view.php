@@ -5,10 +5,13 @@ use classes\SysUser;
 <div class="news-view">
 	<h3>Просмотр новости</h3>
 	<hr>
+	<?php if ($category != false): ?>
+		Категория: <a href="#"><?= $category->name; ?></a>
+	<?php endif ?>	
 		<div>
-			<h3><?= $data1->title; ?></h3>
-			<em>Опубликовано: <?= $data1->date; ?></em>
-			<p><?= $data1->content; ?></p>
+			<h3><?= $news->title; ?></h3>
+			<em>Опубликовано: <?= $news->date; ?></em>
+			<p><?= $news->content; ?></p>
 			<hr>
 			<a class="btn btn-default" href="/news/index"><i class="glyphicon glyphicon-chevron-left"></i> Вернуться на главную</a>
 		</div>
@@ -41,11 +44,11 @@ use classes\SysUser;
 <div style="margin-bottom: 80px; padding: 20px;" class="news-view">
 <h3>Комментарии:</h3>
 <hr>
-<?php if (empty($data2)): ?>
+<?php if (empty($comments)): ?>
 	<p>Эту новость еще никто не прокомментировал...</p><br>
 	<p>Вы можете быть первым!</p>
 <?php else : ?>
-	<?php foreach ($data2 as $value): ?>
+	<?php foreach ($comments as $value): ?>
 	<div class="comment" style="margin-bottom: 5px; padding: 0 0 0 20px">
 		<div style="float: left;" class="avatar"><img style="width: 50px; height: 50px; margin-right: 20px;" src="<?= $value['photo']; ?>"></div>
 		<div class="user_name" style="margin-left: 70px">

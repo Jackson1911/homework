@@ -14,6 +14,16 @@
 		<label>Содержимое:</label>
 		<textarea class="form-control" name="content" placeholder="Текст статьи..." rows="13"><?= $data->content; ?></textarea>
 	</div>
+	<div class="form-group">
+		<label>Категория:</label>
+		<?php if (!empty($categories)): ?>
+			<select class="form-group" type="select" name="select_category">
+			<?php foreach ($categories as $value): ?>
+				<option value="<?= $value->id; ?>"><?= $value->name; ?></option>
+			<?php endforeach ?>	
+			</select>		
+		<?php endif ?>
+	</div>
 	<input class="btn btn-success form-control" id="submit-btn" type="submit" value="Сохранить">
 </form>
 

@@ -615,3 +615,189 @@ function ajaxDeleteComment(event, news_id, comm_id)
 		})
 	});
 }
+
+/**
+ * [ajaxCategoryCreate функция добавления категории]
+ */
+function ajaxCategoryCreate(event){
+
+	event.preventDefault();
+
+	// Заносим в переменную formData данные с формы
+	var formData = $('#category_create').serialize();
+
+	//Формируем модальное окно
+	$('#modal-categories').modal({backdrop: "static"});
+
+	//Обрабатываем нажатие кнопки подтверждения действия
+	$('#modal-save').click(function(event){
+
+		//В момент выполнения запроса делаем кнопки неактивными
+		$('#modal-save').attr('disabled', 'true');
+		$('#modal-close').attr('disabled', 'true');
+
+		//Делаем запрос. Передаем данные.
+		$.ajax({
+			type: 'post',
+			url: '/news/CategoriesCreate',
+			data: formData,
+			dataType: 'json',
+
+			//В случае успеха или ошибки выводим уведомление
+			success: function(res){
+				if (res.status == 'err') {
+					$(".error_msg").html('Вы не заполнили все поля.');
+					$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
+					setTimeout(function() {
+						$('#modal-categories').modal('hide');
+						$('#modal-save').removeAttr('disabled');
+						$('#modal-close').removeAttr('disabled');
+					}, 3000);
+				}
+
+				if (res.status == 'ok') {
+					$(".success_msg").html('Категория добавлена');
+					$(".success_box").fadeIn(500).delay(1000).fadeOut(500);
+					setTimeout(function() {
+						window.location.href = "/news/categories";
+					}, 2000);
+				}	
+			},
+			error: function(){
+				$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
+				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
+				setTimeout(function() {
+					$('#modal-categories').modal('hide');
+					$('#modal-save').removeAttr('disabled');
+					$('#modal-close').removeAttr('disabled');
+				}, 3000);
+			}
+		})
+	});	
+}
+
+/**
+ * [showUpdateForm - отображает форму редактирования]
+ */
+function showUpdateForm(id)
+{
+	$('#category_update' + id).show();
+}
+
+/**
+ * [ajaxCategoryCreate функция добавления категории]
+ */
+function ajaxCategoryUpdate(event, id){
+
+	event.preventDefault();
+
+	// Заносим в переменную formData данные с формы
+	var formData = $('#category_update'+id).serialize();
+
+	//Формируем модальное окно
+	$('.modal-title').html('Редактирование категории');
+	$('.modal-text').html('Этот процесс необратим. Вы уверены что хотите обновить данную категорию?');
+	$('#modal-save').html('Подтвердить');
+	$('#modal-categories').modal({backdrop: "static"});
+
+	//Обрабатываем нажатие кнопки подтверждения действия
+	$('#modal-save').click(function(event){
+
+		//В момент выполнения запроса делаем кнопки неактивными
+		$('#modal-save').attr('disabled', 'true');
+		$('#modal-close').attr('disabled', 'true');
+
+		//Делаем запрос. Передаем данные.
+		$.ajax({
+			type: 'post',
+			url: '/news/CategoriesUpdate?id=' + id,
+			data: formData,
+			dataType: 'json',
+
+			//В случае успеха или ошибки выводим уведомление
+			success: function(res){
+				if (res.status == 'err') {
+					$(".error_msg").html('Вы не заполнили все поля.');
+					$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
+					setTimeout(function() {
+						$('#modal-categories').modal('hide');
+						$('#modal-save').removeAttr('disabled');
+						$('#modal-close').removeAttr('disabled');
+					}, 3000);
+				}
+
+				if (res.status == 'ok') {
+					$(".success_msg").html('Категория обновлена');
+					$(".success_box").fadeIn(500).delay(1000).fadeOut(500);
+					setTimeout(function() {
+						window.location.href = "/news/categories";
+					}, 2000);
+				}	
+			},
+			error: function(){
+				$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
+				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
+				setTimeout(function() {
+					$('#modal-categories').modal('hide');
+					$('#modal-save').removeAttr('disabled');
+					$('#modal-close').removeAttr('disabled');
+				}, 3000);
+			}
+		})
+	});	
+}
+
+/**
+* [ajaxCategoriesDelete Функция удаления категории]
+* @param  int - id удаляемой категории
+*/
+function ajaxCategoryDelete(id){
+
+	$('.modal-title').html('Удаление категории');
+	$('.modal-text').html('Этот процесс необратим. Вы уверены что хотите удалить данную категорию?');
+	$('#modal-save').html('Удалить');
+	$('#modal-save').removeClass('btn-success').addClass('btn-danger');
+	$('.modal-header').css('background-color', '#d9534f');
+	$('#modal-categories').modal({backdrop: "static"});
+
+	$('#modal-save').click(function(event){
+
+		$('#modal-save').attr('disabled', 'true');
+		$('#modal-close').attr('disabled', 'true');
+
+		$.ajax({
+		url: '/news/CategoriesDelete?id=' + id,
+		dataType: 'json',
+
+		success: function(res){
+			if (res.status == 'err') {
+				$(".error_msg").html('Ошибка удаления');
+				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
+				setTimeout(function() {
+					$('#modal-categories').modal('hide');
+					$('#modal-save').removeAttr('disabled');
+					$('#modal-close').removeAttr('disabled');
+				}, 3000);
+			}
+
+			if (res.status == 'ok') {
+				$(".success_msg").html('Категория удалена');
+				$(".success_box").fadeIn(500).delay(1000).fadeOut(500);
+				setTimeout(function() {
+					window.location.href = "/news/categories";
+				}, 2000);
+			}	
+		},
+
+			error: function(){
+				$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
+				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
+				setTimeout(function() {
+					$('#modal-categories').modal('hide');
+					$('#modal-save').removeAttr('disabled');
+					$('#modal-close').removeAttr('disabled');
+				}, 3000);
+			},
+		})
+	});	
+}

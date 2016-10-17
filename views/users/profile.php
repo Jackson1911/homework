@@ -4,7 +4,7 @@
 		<hr>
 
 		<?php if (empty($data['photo'])): ?>
-			<img style="width: 200px; height: 200px; margin-bottom: 20px;" src="/../../uploads/avatar.jpg"><br>
+			<img style="width: 200px; height: 200px; margin-bottom: 20px;" src="/uploads/avatar.jpg"><br>
 		<?php else : ?>
 			<img style="width: 200px; height: 200px; margin-bottom: 20px;" src="<?= $data['photo']; ?>"><br>
 		<?php endif ?>
@@ -22,7 +22,7 @@
 			<label>Дата рождения: </label><p><?= $data['birth_date']; ?></p>
 		<?php endif ?>		
 		<hr>
-		<?php if ($_GET['id'] == $_SESSION['user_id']): ?>
+		<?php if (isset($_SESSION['user_id']) && $_GET['id'] == $_SESSION['user_id']): ?>
 			<a class="btn btn-default" href="/users/editProfile?id=<?= $data['id']; ?>">Редактировать профиль</a><br>
 		<?php endif ?>
 	</div>

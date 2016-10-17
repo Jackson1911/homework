@@ -46,7 +46,7 @@ if (isset($_SESSION['user_id'])) {
 
 	<div id="block" class="modal fade" tabindex="-1" role="dialog"></div>
 
-	<div class="container">
+	<div class="container col-md-10 col-md-offset-1">
 		<div class="content">
 			<?php echo $content; ?>
 		</div>

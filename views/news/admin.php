@@ -2,7 +2,14 @@
 use classes\SysUser;
 ?>
 
-<div class="admin-panel">
+<div class="view col-md-2">
+	<ul>
+		<li><a href="/news/newsadmin">Новости</a></li>
+		<li><a href="/news/categories">Категории</a></li>
+	</ul>
+</div>
+
+<div class="admin-panel col-md-9" style="margin-left:10px;">
 	<h3>Управление новостями</h3>
 	<hr>
 	<a class="btn btn-success" href="/news/create"><i class="glyphicon glyphicon-plus"></i> Добавить новую новость</a>
@@ -12,6 +19,7 @@ use classes\SysUser;
 		<tr class="info">
 			<th>Заголовок:</th>
 			<th class="text-center">Дата публикации:</th>
+			<th class="text-center">Категория:</th>
 			<th colspan="3">Действия:</th>
 		</tr>
 <?php else: ?>
@@ -20,21 +28,22 @@ use classes\SysUser;
 			
 	<?php foreach ($data as $value): ?>
 		<tr>
-			<td><?= $value->title; ?></td>
-			<td class="text-center"><?= $value->date; ?></td>
+			<td><?= $value['title']; ?></td>
+			<td class="text-center"><?= $value['date']; ?></td>
+			<td><?= $value['name']; ?></td>
 			<td width="1">
-				<a title="Посмотреть" class="btn btn-success btn-xs" href="/news/view?id=<?= $value->id; ?>">
+				<a title="Посмотреть" class="btn btn-success btn-xs" href="/news/view?id=<?= $value['news_id']; ?>">
 					<i class="glyphicon glyphicon-eye-open"></i>
 				</a>
 			</td>
 			<?php if (SysUser::getRole() == 'admin'): ?>
 				<td width="1">
-				<a title="Редактировать" class="btn btn-warning btn-xs" href="/news/update?id=<?= $value->id; ?>">
+				<a title="Редактировать" class="btn btn-warning btn-xs" href="/news/update?id=<?= $value['news_id']; ?>">
 					<i class="glyphicon glyphicon-pencil"></i>
 				</a>
 				</td>
 				<td width="1">
-					<a title="Удалить" class="btn btn-danger btn-xs" onclick="ajaxNewsDelete(<?= $value->id; ?>)">
+					<a title="Удалить" class="btn btn-danger btn-xs" onclick="ajaxNewsDelete(<?= $value['news_id']; ?>)">
 						<i class="glyphicon glyphicon-remove"></i>
 					</a>
 				</td>
@@ -61,4 +70,3 @@ use classes\SysUser;
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
