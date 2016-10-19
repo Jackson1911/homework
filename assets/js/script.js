@@ -624,7 +624,7 @@ function ajaxCategoryCreate(event){
 	event.preventDefault();
 
 	// Заносим в переменную formData данные с формы
-	var formData = $('#category_create').serialize();
+	var formData = $('form').serialize();
 
 	//Формируем модальное окно
 	$('#modal-categories').modal({backdrop: "static"});
@@ -639,7 +639,7 @@ function ajaxCategoryCreate(event){
 		//Делаем запрос. Передаем данные.
 		$.ajax({
 			type: 'post',
-			url: '/news/CategoriesCreate',
+			url: '/news/CategoriesCreateProcess',
 			data: formData,
 			dataType: 'json',
 
@@ -677,14 +677,6 @@ function ajaxCategoryCreate(event){
 }
 
 /**
- * [showUpdateForm - отображает форму редактирования]
- */
-function showUpdateForm(id)
-{
-	$('#category_update' + id).show();
-}
-
-/**
  * [ajaxCategoryCreate функция добавления категории]
  */
 function ajaxCategoryUpdate(event, id){
@@ -692,13 +684,10 @@ function ajaxCategoryUpdate(event, id){
 	event.preventDefault();
 
 	// Заносим в переменную formData данные с формы
-	var formData = $('#category_update'+id).serialize();
+	var formData = $('form').serialize();
 
 	//Формируем модальное окно
-	$('.modal-title').html('Редактирование категории');
-	$('.modal-text').html('Этот процесс необратим. Вы уверены что хотите обновить данную категорию?');
-	$('#modal-save').html('Подтвердить');
-	$('#modal-categories').modal({backdrop: "static"});
+	$('#modal').modal({backdrop: "static"});
 
 	//Обрабатываем нажатие кнопки подтверждения действия
 	$('#modal-save').click(function(event){
@@ -710,7 +699,7 @@ function ajaxCategoryUpdate(event, id){
 		//Делаем запрос. Передаем данные.
 		$.ajax({
 			type: 'post',
-			url: '/news/CategoriesUpdate?id=' + id,
+			url: '/news/CategoriesUpdateProcess?id=' + id,
 			data: formData,
 			dataType: 'json',
 
@@ -720,7 +709,7 @@ function ajaxCategoryUpdate(event, id){
 					$(".error_msg").html('Вы не заполнили все поля.');
 					$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
 					setTimeout(function() {
-						$('#modal-categories').modal('hide');
+						$('#modal').modal('hide');
 						$('#modal-save').removeAttr('disabled');
 						$('#modal-close').removeAttr('disabled');
 					}, 3000);
@@ -738,7 +727,7 @@ function ajaxCategoryUpdate(event, id){
 				$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
 				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
 				setTimeout(function() {
-					$('#modal-categories').modal('hide');
+					$('#modal').modal('hide');
 					$('#modal-save').removeAttr('disabled');
 					$('#modal-close').removeAttr('disabled');
 				}, 3000);
@@ -753,11 +742,6 @@ function ajaxCategoryUpdate(event, id){
 */
 function ajaxCategoryDelete(id){
 
-	$('.modal-title').html('Удаление категории');
-	$('.modal-text').html('Этот процесс необратим. Вы уверены что хотите удалить данную категорию?');
-	$('#modal-save').html('Удалить');
-	$('#modal-save').removeClass('btn-success').addClass('btn-danger');
-	$('.modal-header').css('background-color', '#d9534f');
 	$('#modal-categories').modal({backdrop: "static"});
 
 	$('#modal-save').click(function(event){

@@ -7,22 +7,22 @@
 		<input class="form-control" type="text" name="title" value="<?= $data->title; ?>">		
 	</div>
 	<div class="form-group">
+		<label>Категория:</label>
+		<?php if (!empty($categories)): ?>
+			<select class="form-control" type="select" name="select_category">
+			<?php foreach ($categories as $value): ?>
+				<option value="<?= $value->id; ?>"<?= $data->category_id == $value->id ? 'selected' : ""?>><?= $value->name; ?></option>
+			<?php endforeach ?>	
+			</select>		
+		<?php endif ?>
+	</div>
+	<div class="form-group">
 		<label>Дата публикации:</label>
 		<input class="form-control" type="date" name="date" value="<?= $data->date; ?>">
 	</div>
 	<div class="form-group">
 		<label>Содержимое:</label>
 		<textarea class="form-control" name="content" placeholder="Текст статьи..." rows="13"><?= $data->content; ?></textarea>
-	</div>
-	<div class="form-group">
-		<label>Категория:</label>
-		<?php if (!empty($categories)): ?>
-			<select class="form-group" type="select" name="select_category">
-			<?php foreach ($categories as $value): ?>
-				<option value="<?= $value->id; ?>"><?= $value->name; ?></option>
-			<?php endforeach ?>	
-			</select>		
-		<?php endif ?>
 	</div>
 	<input class="btn btn-success form-control" id="submit-btn" type="submit" value="Сохранить">
 </form>

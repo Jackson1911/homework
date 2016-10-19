@@ -55,6 +55,8 @@ class newsController extends SystemController
 
 	/**
 	 * [actionCreate Отображает форму добавления новости]
+	 * 
+	 * @throws \classes\EPermissionException
 	 */
 	public function actionCreate()
 	{
@@ -62,11 +64,7 @@ class newsController extends SystemController
 		$role = SysUser::getRole();
 		//Если роль не admin	
 		if ($role !== 'admin') {
-			//Выбрасываем исключение
-			
-			/**
-			 * @throws \classes\EPermissionException
-			 */
+			//Выбрасываем исключение			
 			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
 		}
 
@@ -81,6 +79,8 @@ class newsController extends SystemController
 	 * @var $title - содержит POST данные из формы создания новости
 	 * @var $date - содержит POST данные из формы создания новости
 	 * @var $content - содержит POST данные из формы создания новости
+	 *
+	 * @throws \classes\EPermissionException
 	 */
 	public function actionAjaxCreate()
 	{
@@ -89,10 +89,6 @@ class newsController extends SystemController
 		//Если роль не admin	
 		if ($role !== 'admin') {
 			//Выбрасываем исключение
-			
-			/**
-			 * @throws \classes\EPermissionException
-			 */
 			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
 		}
 
@@ -124,6 +120,8 @@ class newsController extends SystemController
 	/**
 	 * [actionUpdate Отображает форму редактирования, делает выборку из БД и заполняет поля]
 	 * @var $id - получает GET параметр id новости
+	 *
+	 * @throws \classes\EPermissionException
 	 */
 	public function actionUpdate()
 	{
@@ -132,10 +130,6 @@ class newsController extends SystemController
 		//Если роль не admin	
 		if ($role !== 'admin') {
 			//Выбрасываем исключение
-			
-			/**
-			 * @throws \classes\EPermissionException
-			 */
 			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
 		}
 
@@ -165,7 +159,8 @@ class newsController extends SystemController
 	/**
 	 * [actionAjaxUpdate - делает SQL-запрос к БД и добавляет отредактированные данные]
 	 * @var $id - получает GET параметр id новости
-	 * 
+	 *
+	 * @throws \classes\EPermissionException
 	 */
 	public function actionAjaxUpdate()
 	{
@@ -174,10 +169,6 @@ class newsController extends SystemController
 		//Если роль не admin	
 		if ($role !== 'admin') {
 			//Выбрасываем исключение
-			
-			/**
-			 * @throws \classes\EPermissionException
-			 */
 			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
 		}
 
@@ -264,6 +255,8 @@ class newsController extends SystemController
 
 	/**
 	 * [actionCommentEdit - рендер представления редактирования комментария]
+	 *
+	 * @throws \classes\EPermissionException
 	 */
 	public function actionComment_update()
 	{
@@ -272,10 +265,6 @@ class newsController extends SystemController
 		//Если роль не admin	
 		if ($role !== 'admin') {
 			//Выбрасываем исключение
-			
-			/**
-			 * @throws \classes\EPermissionException
-			 */
 			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
 		}
 
@@ -291,6 +280,8 @@ class newsController extends SystemController
 
 	/**
 	 * [actionCommentUpdateProcess - обновляет отредактированный комментарий в БД]
+	 * 
+	 * @throws \classes\EPermissionException
 	 */
 	public function actionCommentUpdateProcess()
 	{
@@ -299,10 +290,6 @@ class newsController extends SystemController
 		//Если роль не admin	
 		if ($role !== 'admin') {
 			//Выбрасываем исключение
-			
-			/**
-			 * @throws \classes\EPermissionException
-			 */
 			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
 		}
 
@@ -325,6 +312,8 @@ class newsController extends SystemController
 
 	/**
 	 * [actionCommentDeleteProcess - удаляет комментарий из БД]
+	 * 
+	 * @throws \classes\EPermissionException
 	 */
 	public function actionCommentDeleteProcess()
 	{
@@ -333,10 +322,6 @@ class newsController extends SystemController
 		//Если роль не admin	
 		if ($role !== 'admin') {
 			//Выбрасываем исключение
-			
-			/**
-			 * @throws \classes\EPermissionException
-			 */
 			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
 		}
 
@@ -356,6 +341,8 @@ class newsController extends SystemController
 
 	/**
 	 * [actionAjaxDelete - Удаляет новость по ее id]
+	 * 
+	 * @throws \classes\EPermissionException
 	 */
 	public function actionAjaxDelete()
 	{
@@ -364,10 +351,6 @@ class newsController extends SystemController
 		//Если роль не admin	
 		if ($role !== 'admin') {
 			//Выбрасываем исключение
-			
-			/**
-			 * @throws \classes\EPermissionException
-			 */
 			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
 		}
 
@@ -392,6 +375,8 @@ class newsController extends SystemController
 	 * Просмотреть
 	 * Редактировать
 	 * Удалить]
+	 * 
+	 * @throws \classes\EPermissionException
 	 */
 	public function actionNewsAdmin()
 	{
@@ -400,10 +385,6 @@ class newsController extends SystemController
 		//Если роль не admin	
 		if ($role !== 'admin') {
 			//Выбрасываем исключение
-			
-			/**
-			 * @throws \classes\EPermissionException
-			 */
 			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
 		}
 
@@ -424,6 +405,8 @@ class newsController extends SystemController
 
 	/**
 	 * [actionCategories - рендер формы управления категориями]
+	 * 
+	 * @throws \classes\EPermissionException
 	 */
 	public function actionCategories()
 	{
@@ -432,10 +415,6 @@ class newsController extends SystemController
 		//Если роль не admin	
 		if ($role !== 'admin') {
 			//Выбрасываем исключение
-			
-			/**
-			 * @throws \classes\EPermissionException
-			 */
 			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
 		}
 
@@ -446,7 +425,9 @@ class newsController extends SystemController
 	}
 
 	/**
-	 * [actionCategoriesCreate - создание новой и категории и добавление ее в БД]
+	 * [actionCategoriesCreate - отображение формы добавления новой категории в БД]
+	 *
+	 * @throws \classes\EPermissionException
 	 */
 	public function actionCategoriesCreate()
 	{
@@ -455,10 +436,24 @@ class newsController extends SystemController
 		//Если роль не admin	
 		if ($role !== 'admin') {
 			//Выбрасываем исключение
-			
-			/**
-			 * @throws \classes\EPermissionException
-			 */
+			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
+		}
+
+		CView::render('category_create');
+	}
+
+	/**
+	 * [actionCategoriesCreate - создание новой и категории и добавление ее в БД]
+	 * 
+	 * @throws \classes\EPermissionException
+	 */
+	public function actionCategoriesCreateProcess()
+	{
+		//Проверяем роль пользователя
+		$role = SysUser::getRole();
+		//Если роль не admin	
+		if ($role !== 'admin') {
+			//Выбрасываем исключение
 			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
 		}
 
@@ -475,7 +470,9 @@ class newsController extends SystemController
 	}
 
 	/**
-	 * [actionCategoriesUpdate - обновление категории]
+	 * [actionCategoriesUpdate - отображение формы редактирования новой категории в БД]
+	 *
+	 * @throws \classes\EPermissionException
 	 */
 	public function actionCategoriesUpdate()
 	{
@@ -484,10 +481,29 @@ class newsController extends SystemController
 		//Если роль не admin	
 		if ($role !== 'admin') {
 			//Выбрасываем исключение
-			
-			/**
-			 * @throws \classes\EPermissionException
-			 */
+			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
+		}
+
+		$id = $_GET['id'];
+
+		$data = new NewsCategories;
+		$data = $data->findOne(['id' => $id]);
+		
+		CView::render('category_update', $data);
+	}
+
+	/**
+	 * [actionCategoriesUpdate - обновление категории]
+	 * 
+	 * @throws \classes\EPermissionException
+	 */
+	public function actionCategoriesUpdateProcess()
+	{
+		//Проверяем роль пользователя
+		$role = SysUser::getRole();
+		//Если роль не admin	
+		if ($role !== 'admin') {
+			//Выбрасываем исключение
 			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
 		}
 
@@ -506,6 +522,11 @@ class newsController extends SystemController
 		}
 	}
 
+	/**
+	 * [actionCategoriesDelete - удаление категории]
+	 * 
+	 * @throws \classes\EPermissionException
+	 */
 	public function actionCategoriesDelete()
 	{
 		//Проверяем роль пользователя
@@ -513,10 +534,6 @@ class newsController extends SystemController
 		//Если роль не admin	
 		if ($role !== 'admin') {
 			//Выбрасываем исключение
-			
-			/**
-			 * @throws \classes\EPermissionException
-			 */
 			throw new \classes\EPermissionException('У вас нет прав доступа к данной странице');
 		}
 		
