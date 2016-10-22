@@ -30,7 +30,7 @@ use classes\SysUser;
 		<tr>
 			<td><?= $value['title']; ?></td>
 			<td class="text-center"><?= $value['date']; ?></td>
-			<td><?= $value['name']; ?></td>
+			<td><?= !empty($value['name']) ? $value['name'] : "Без категории"; ?></td>
 			<td width="1">
 				<a title="Посмотреть" class="btn btn-success btn-xs" href="/news/view?id=<?= $value['news_id']; ?>">
 					<i class="glyphicon glyphicon-eye-open"></i>

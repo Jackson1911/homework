@@ -62,7 +62,7 @@ use classes\SysUser;
 				<p><?= $value['comm_content']; ?></p>
 			</div>
 			<?php if (SysUser::getRole() == 'admin'): ?>
-				<a title="Редактировать" class="btn btn-warning btn-xs" href="/news/comment_update?id=<?= $value['comments_id']; ?>">
+				<a title="Редактировать" class="btn btn-warning btn-xs" href="/news/commentUpdate?id=<?= $value['comments_id']; ?>">
 					<i class="glyphicon glyphicon-pencil"></i>
 					Редактировать
 				</a>
