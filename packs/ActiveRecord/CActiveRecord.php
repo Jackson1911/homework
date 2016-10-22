@@ -35,7 +35,7 @@ class CActiveRecord implements IActiveRecord
         return $stm->fetchAll();
     }
 
-    public function findOne(array $condition = []):IActiveRecord
+    public function findOne(array $condition = [])
     {
         $stm = App::$db
             ->setClass(get_called_class())
