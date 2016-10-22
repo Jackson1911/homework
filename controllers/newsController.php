@@ -140,9 +140,6 @@ class newsController extends SystemController
 		$model = new News();
 		$data = $model->findOne(['id' => $id]);
 
-		$category = new NewsCategories;
-		$category = $category->findAll();
-
 		$categories = new NewsCategories;
 		$categories = $categories->findAll();
 
@@ -152,7 +149,7 @@ class newsController extends SystemController
 		 * В качестве параметров задаем имя вызываемого представления - 'update'
 		 * и данные выбранные в БД - $data
 		 */
-		CView::render('update', ['data' => $data, 'category' => $category, 'categories' => $categories]);
+		CView::render('update', ['data' => $data, 'categories' => $categories]);
 
 	}
 
@@ -258,7 +255,7 @@ class newsController extends SystemController
 	 *
 	 * @throws \classes\EPermissionException
 	 */
-	public function actionComment_update()
+	public function actionCommentUpdate()
 	{
 		//Проверяем роль пользователя
 		$role = SysUser::getRole();
@@ -392,7 +389,7 @@ class newsController extends SystemController
 		$data = App::$db
 			->select('n.*, n.id as news_id, a.*')
 			->from('news n')
-			->innerJoin('news_categories a', 'a.id = n.category_id')
+			->leftJoin('news_categories a', 'a.id = n.category_id')
 			->fetchAll();
 
 		if (empty($data)) {
