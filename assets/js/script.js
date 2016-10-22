@@ -9,54 +9,43 @@ function ajaxNewsCreate(event){
 	// Заносим в переменную formData данные с формы
 	var formData = $('form').serialize();
 
-	//Формируем модальное окно
-	$('#modal-create').modal({backdrop: "static"});
+	//Делаем запрос. Передаем данные.
+	$.ajax({
+		type: 'post',
+		url: '/news/AjaxCreate',
+		data: formData,
+		dataType: 'json',
 
-	//Обрабатываем нажатие кнопки подтверждения действия
-	$('#modal-save').click(function(event){
+		beforeSend: function(){
+			$('#modal-create').modal({backdrop: "static"});
+		},
 
-		//В момент выполнения запроса делаем кнопки неактивными
-		$('#modal-save').attr('disabled', 'true');
-		$('#modal-close').attr('disabled', 'true');
-
-		//Делаем запрос. Передаем данные.
-		$.ajax({
-			type: 'post',
-			url: '/news/AjaxCreate',
-			data: formData,
-			dataType: 'json',
-
-			//В случае успеха или ошибки выводим уведомление
-			success: function(res){
-				if (res.status == 'err') {
-					$(".error_msg").html('Вы не заполнили все поля.');
-					$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
-					setTimeout(function() {
-						$('#modal-create').modal('hide');
-						$('#modal-save').removeAttr('disabled');
-						$('#modal-close').removeAttr('disabled');
-					}, 3000);
-				}
-
-				if (res.status == 'ok') {
-					$(".success_msg").html('Новость добавлена');
-					$(".success_box").fadeIn(500).delay(1000).fadeOut(500);
-					setTimeout(function() {
-						window.location.href = "/news/newsadmin";
-					}, 2000);
-				}	
-			},
-			error: function(){
-				$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
+		//В случае успеха или ошибки выводим уведомление
+		success: function(res){
+			if (res.status == 'err') {
+				$(".error_msg").html('Вы не заполнили все поля.');
 				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
 				setTimeout(function() {
 					$('#modal-create').modal('hide');
-					$('#modal-save').removeAttr('disabled');
-					$('#modal-close').removeAttr('disabled');
 				}, 3000);
 			}
-		})
-	});	
+
+			if (res.status == 'ok') {
+				$(".success_msg").html('Новость добавлена');
+				$(".success_box").fadeIn(500).delay(1000).fadeOut(500);
+				setTimeout(function() {
+					window.location.href = "/news/newsadmin";
+				}, 2000);
+			}	
+		},
+		error: function(){
+			$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
+			$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
+			setTimeout(function() {
+				$('#modal-create').modal('hide');
+			}, 3000);
+		}
+	})
 }
 
 /**
@@ -71,52 +60,42 @@ function ajaxNewsUpdate(event, id){
 
 	var formData = $('form').serialize();
 
-	//Формируем модальное окно
-	$('#modal-update').modal({backdrop: "static"});
+	$.ajax({
+		url: '/news/AjaxUpdate?id=' + id,
+		method: 'post',
+		data: formData,
+		dataType: 'json',
 
-	//Обрабатываем нажатие кнопки подтверждения действия
-	$('#modal-save').click(function(event){
+		beforeSend: function(){
+			$('#modal-update').modal({backdrop: "static"});
+		},
 
-		$('#modal-save').attr('disabled', 'true');
-		$('#modal-close').attr('disabled', 'true');
-
-		$.ajax({
-			url: '/news/AjaxUpdate?id=' + id,
-			method: 'post',
-			data: formData,
-			dataType: 'json',
-
-			success: function(res){
-				if (res.status == 'err') {
-					$(".error_msg").html('Ошибка обновления');
-					$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
-					setTimeout(function() {
-						$('#modal-update').modal('hide');
-						$('#modal-save').removeAttr('disabled');
-						$('#modal-close').removeAttr('disabled');
-					}, 3000);
-				}
-
-				if (res.status == 'ok') {
-					$(".success_msg").html('Новость обновлена');
-					$(".success_box").fadeIn(500).delay(1000).fadeOut(500);
-					setTimeout(function() {
-						window.location.href = "/news/newsadmin";
-					}, 2000);
-				}	
-			},
-
-			error: function(){
-				$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
+		success: function(res){
+			if (res.status == 'err') {
+				$(".error_msg").html('Ошибка обновления');
 				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
 				setTimeout(function() {
 					$('#modal-update').modal('hide');
-					$('#modal-save').removeAttr('disabled');
-					$('#modal-close').removeAttr('disabled');
 				}, 3000);
-			},
-		})
-	});	
+			}
+
+			if (res.status == 'ok') {
+				$(".success_msg").html('Новость обновлена');
+				$(".success_box").fadeIn(500).delay(1000).fadeOut(500);
+				setTimeout(function() {
+					window.location.href = "/news/newsadmin";
+				}, 2000);
+			}	
+		},
+
+		error: function(){
+			$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
+			$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
+			setTimeout(function() {
+				$('#modal-update').modal('hide');
+			}, 3000);
+		},
+	})
 }
 
 /**
@@ -515,52 +494,42 @@ function ajaxUpdateComment(event, news_id, comm_id)
 
 	var formData = $('form').serialize();
 
-	//Формируем модальное окно
-	$('#modal-update').modal({backdrop: "static"});
+	$.ajax({
+		url: '/news/CommentUpdateProcess?id=' + comm_id,
+		method: 'post',
+		data: formData,
+		dataType: 'json',
 
-	//Обрабатываем нажатие кнопки подтверждения действия
-	$('#modal-save').click(function(event){
+		beforeSend: function(){
+			$('#modal-update').modal({backdrop: "static"});
+		},
 
-		$('#modal-save').attr('disabled', 'true');
-		$('#modal-close').attr('disabled', 'true');
-
-		$.ajax({
-			url: '/news/CommentUpdateProcess?id=' + comm_id,
-			method: 'post',
-			data: formData,
-			dataType: 'json',
-
-			success: function(res){
-				if (res.status == 'err') {
-					$(".error_msg").html('Ошибка обновления');
-					$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
-					setTimeout(function() {
-						$('#modal-update').modal('hide');
-						$('#modal-save').removeAttr('disabled');
-						$('#modal-close').removeAttr('disabled');
-					}, 3000);
-				}
-
-				if (res.status == 'ok') {
-					$(".success_msg").html('Комментарий обновлен');
-					$(".success_box").fadeIn(500).delay(1000).fadeOut(500);
-					setTimeout(function() {
-						window.location.href = "/news/view?id=" + news_id;
-					}, 2000);
-				}	
-			},
-
-			error: function(){
-				$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
+		success: function(res){
+			if (res.status == 'err') {
+				$(".error_msg").html('Ошибка обновления');
 				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
 				setTimeout(function() {
 					$('#modal-update').modal('hide');
-					$('#modal-save').removeAttr('disabled');
-					$('#modal-close').removeAttr('disabled');
 				}, 3000);
-			},
-		})
-	});
+			}
+
+			if (res.status == 'ok') {
+				$(".success_msg").html('Комментарий обновлен');
+				$(".success_box").fadeIn(500).delay(1000).fadeOut(500);
+				setTimeout(function() {
+					window.location.href = "/news/view?id=" + news_id;
+				}, 2000);
+			}	
+		},
+
+		error: function(){
+			$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
+			$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
+			setTimeout(function() {
+				$('#modal-update').modal('hide');
+			}, 3000);
+		},
+	})
 }
 
 /**
@@ -626,54 +595,43 @@ function ajaxCategoryCreate(event){
 	// Заносим в переменную formData данные с формы
 	var formData = $('form').serialize();
 
-	//Формируем модальное окно
-	$('#modal-categories').modal({backdrop: "static"});
+	//Делаем запрос. Передаем данные.
+	$.ajax({
+		type: 'post',
+		url: '/news/CategoriesCreateProcess',
+		data: formData,
+		dataType: 'json',
 
-	//Обрабатываем нажатие кнопки подтверждения действия
-	$('#modal-save').click(function(event){
+		beforeSend: function(){
+			$('#modal').modal({backdrop: "static"})
+		},
 
-		//В момент выполнения запроса делаем кнопки неактивными
-		$('#modal-save').attr('disabled', 'true');
-		$('#modal-close').attr('disabled', 'true');
-
-		//Делаем запрос. Передаем данные.
-		$.ajax({
-			type: 'post',
-			url: '/news/CategoriesCreateProcess',
-			data: formData,
-			dataType: 'json',
-
-			//В случае успеха или ошибки выводим уведомление
-			success: function(res){
-				if (res.status == 'err') {
-					$(".error_msg").html('Вы не заполнили все поля.');
-					$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
-					setTimeout(function() {
-						$('#modal-categories').modal('hide');
-						$('#modal-save').removeAttr('disabled');
-						$('#modal-close').removeAttr('disabled');
-					}, 3000);
-				}
-
-				if (res.status == 'ok') {
-					$(".success_msg").html('Категория добавлена');
-					$(".success_box").fadeIn(500).delay(1000).fadeOut(500);
-					setTimeout(function() {
-						window.location.href = "/news/categories";
-					}, 2000);
-				}	
-			},
-			error: function(){
-				$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
+		//В случае успеха или ошибки выводим уведомление
+		success: function(res){
+			if (res.status == 'err') {
+				$(".error_msg").html('Вы не заполнили все поля.');
 				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
 				setTimeout(function() {
-					$('#modal-categories').modal('hide');
-					$('#modal-save').removeAttr('disabled');
-					$('#modal-close').removeAttr('disabled');
+					$('#modal').modal('hide');
 				}, 3000);
 			}
-		})
-	});	
+
+			if (res.status == 'ok') {
+				$(".success_msg").html('Категория добавлена');
+				$(".success_box").fadeIn(500).delay(1000).fadeOut(500);
+				setTimeout(function() {
+					window.location.href = "/news/categories";
+				}, 2000);
+			}	
+		},
+		error: function(){
+			$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
+			$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
+			setTimeout(function() {
+				$('#modal').modal('hide');
+			}, 3000);
+		}
+	})	
 }
 
 /**
@@ -686,54 +644,43 @@ function ajaxCategoryUpdate(event, id){
 	// Заносим в переменную formData данные с формы
 	var formData = $('form').serialize();
 
-	//Формируем модальное окно
-	$('#modal').modal({backdrop: "static"});
+	//Делаем запрос. Передаем данные.
+	$.ajax({
+		type: 'post',
+		url: '/news/CategoriesUpdateProcess?id=' + id,
+		data: formData,
+		dataType: 'json',
 
-	//Обрабатываем нажатие кнопки подтверждения действия
-	$('#modal-save').click(function(event){
+		beforeSend: function(){
+			$('#modal').modal({backdrop: "static"})
+		},
 
-		//В момент выполнения запроса делаем кнопки неактивными
-		$('#modal-save').attr('disabled', 'true');
-		$('#modal-close').attr('disabled', 'true');
-
-		//Делаем запрос. Передаем данные.
-		$.ajax({
-			type: 'post',
-			url: '/news/CategoriesUpdateProcess?id=' + id,
-			data: formData,
-			dataType: 'json',
-
-			//В случае успеха или ошибки выводим уведомление
-			success: function(res){
-				if (res.status == 'err') {
-					$(".error_msg").html('Вы не заполнили все поля.');
-					$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
-					setTimeout(function() {
-						$('#modal').modal('hide');
-						$('#modal-save').removeAttr('disabled');
-						$('#modal-close').removeAttr('disabled');
-					}, 3000);
-				}
-
-				if (res.status == 'ok') {
-					$(".success_msg").html('Категория обновлена');
-					$(".success_box").fadeIn(500).delay(1000).fadeOut(500);
-					setTimeout(function() {
-						window.location.href = "/news/categories";
-					}, 2000);
-				}	
-			},
-			error: function(){
-				$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
+		//В случае успеха или ошибки выводим уведомление
+		success: function(res){
+			if (res.status == 'err') {
+				$(".error_msg").html('Вы не заполнили все поля.');
 				$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
 				setTimeout(function() {
 					$('#modal').modal('hide');
-					$('#modal-save').removeAttr('disabled');
-					$('#modal-close').removeAttr('disabled');
 				}, 3000);
 			}
-		})
-	});	
+
+			if (res.status == 'ok') {
+				$(".success_msg").html('Категория обновлена');
+				$(".success_box").fadeIn(500).delay(1000).fadeOut(500);
+				setTimeout(function() {
+					window.location.href = "/news/categories";
+				}, 2000);
+			}	
+		},
+		error: function(){
+			$(".error_msg").html('Произошла непредвиденная ошибка. Обратитесь к администратору или повторите попытку позднее.');
+			$(".error_box").fadeIn(500).delay(2000).fadeOut(500);
+			setTimeout(function() {
+				$('#modal').modal('hide');
+			}, 3000);
+		}
+	})
 }
 
 /**
